@@ -1,0 +1,18 @@
+<section class="tags-wrap">
+    <header class="tags-header">
+        <h1>
+            <%= page.title %>
+        </h1>
+    </header>
+    <% if (site.categories && site.categories.length && site.categories.forEach){ %>
+    <%
+        var cats = [];
+        site.tags.forEach(function(cat,i){
+            cats.push(`<li class="tags-item"><a class="color${i%5+1}" href="${url_for(cat.path)}">${cat.name}<span class="bage">${cat.length}</span></a></li>`);
+        });
+        %>
+    <ul class='tags-content'>
+        <%- cats.join('') %>
+    </ul>
+    <% } %>
+</section>

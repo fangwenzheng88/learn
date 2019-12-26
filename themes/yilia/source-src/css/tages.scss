@@ -1,0 +1,116 @@
+.tags-wrap {
+    position: relative;
+    margin: 30px 30px 60px;
+    padding-right: 60px;
+    border-bottom: 1px solid #eee;
+    background: #fff;
+}
+
+.tags-header {
+    border-left: 5px solid #4d4d4d;
+    padding: 30px 0 15px 25px;
+    padding-left: 7.6923%;
+
+    &>h1 {
+        color: #696969;
+        margin-left: 0;
+        font-weight: 300;
+        line-height: 35px;
+        margin-bottom: 20px;
+        font-size: 26px;
+        transition: color .3s;
+    }
+}
+
+.tags-content {
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+
+    .tags-item {
+        a {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: normal;
+            font-size: 10px;
+            color: #fff;
+            height: 18px;
+            line-height: 18px;
+            padding: 0 5px 0px 10px;
+            position: relative;
+            border-radius: 0 5px 5px 0;
+            margin: 5px 9px 5px 8px;
+            font-family: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace;
+
+            &:hover {
+                opacity: 0.8;
+            }
+
+            &:before {
+                content: " ";
+                width: 0px;
+                height: 0px;
+                position: absolute;
+                top: 0;
+                left: -18px;
+                border: 9px solid transparent;
+            }
+
+            &:after {
+                content: " ";
+                width: 4px;
+                height: 4px;
+                background-color: #fff;
+                border-radius: 4px;
+                box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, .3);
+                position: absolute;
+                top: 7px;
+                left: 2px;
+            }
+        }
+
+        .bage{
+            padding-left: 5px;
+        }
+
+        a.color1 {
+            background: #FF945C;
+
+            &:before {
+                border-right-color: #FF945C;
+            }
+        }
+
+        a.color2 {
+            background: #cc8167;
+
+            &:before {
+                border-right-color: #cc8167;
+            }
+        }
+
+        a.color3 {
+            background: #BA8F6C;
+
+            &:before {
+                border-right-color: #BA8F6C;
+            }
+        }
+
+        a.color4 {
+            background: #94635c;
+
+            &:before {
+                border-right-color: #94635c;
+            }
+        }
+
+        a.color5 {
+            background: #7B5D5F;
+
+            &:before {
+                border-right-color: #7B5D5F;
+            }
+        }
+    }
+}
