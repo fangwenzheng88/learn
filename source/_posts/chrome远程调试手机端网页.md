@@ -25,11 +25,8 @@ categories:
 4. 进入开发者选项,并且下拉找到选择USB配置。
 5. 打开之后会有一个选择的详细列表,选择RNDIS(选择USB网络)选项，不同手机可能不一样
 6. 等几秒钟会有一个是否允许USB调试的弹窗，选择始终允许。
-7. 不行就恢复默认设置多试几次
-
 ![](https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/chrome调试1577339643.png)
-
-这个页面弹出，基本及OK了。这时候PC端就可以检查到手机了
+7. 这个页面弹出，基本及OK了。这时候PC端就可以检查到手机了，不行就多试几次。
 
 ## 2.2. PC端浏览器输入 `chrome://inspect/#devices`
 
