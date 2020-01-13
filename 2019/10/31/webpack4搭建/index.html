@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="https://fangwenzheng88.github.io">
+  <title>webpack4搭建教程 | 个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 初始化项目1.1. 创建文件夹webpack4_demo，进入文件夹打开cmd命令行1.2. 输入npm init 初始化package.json1234567891011&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;webpack4_demo&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;1.0.0&amp;quot;,  &amp;quot;descriptio">
+<meta name="keywords" content="webpack">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webpack4搭建教程">
+<meta property="og:url" content="https:&#x2F;&#x2F;fangwenzheng88.github.io&#x2F;2019&#x2F;10&#x2F;31&#x2F;webpack4%E6%90%AD%E5%BB%BA&#x2F;index.html">
+<meta property="og:site_name" content="个人笔记">
+<meta property="og:description" content="1. 初始化项目1.1. 创建文件夹webpack4_demo，进入文件夹打开cmd命令行1.2. 输入npm init 初始化package.json1234567891011&amp;#123;  &amp;quot;name&amp;quot;: &amp;quot;webpack4_demo&amp;quot;,  &amp;quot;version&amp;quot;: &amp;quot;1.0.0&amp;quot;,  &amp;quot;descriptio">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;20191012145636.jpg">
+<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;20191014155626.png">
+<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;20191014162254.png">
+<meta property="og:updated_time" content="2020-01-13T09:03:34.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;20191012145636.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/learn/favicon.ico">
+  
+  <link rel="stylesheet" type="text/css" href="/learn/./main.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+    }
+  </style>
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #00000"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/learn" class="profilepic">
+			<img src="/learn/assets/head.svg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="/learn">新许88</a></h1>
+		</hgroup>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/learn/">主页</a></li>
+	        
+				<li><a href="/learn/categories">分类</a></li>
+	        
+				<li><a href="/learn/tags">标签</a></li>
+	        
+				<li><a href="/learn/archives">归档</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/fangwenzheng88/learn/tree/hexo" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #00000"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/learn/assets/head.svg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">新许88</h1>
+			</hgroup>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/fangwenzheng88/learn/tree/hexo" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 25%"><a href="/learn/">主页</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/categories">分类</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/tags">标签</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/archives">归档</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-webpack4搭建" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      webpack4搭建教程
+    </h1>
+  
+
+        
+        
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		<i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/learn/2019/10/31/webpack4%E6%90%AD%E5%BB%BA/" class="archive-article-date">
+	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
+			class="icon-calendar icon"></i>2019-10-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-初始化项目"><a href="#1-初始化项目" class="headerlink" title="1. 初始化项目"></a>1. 初始化项目</h1><h2 id="1-1-创建文件夹webpack4-demo，进入文件夹打开cmd命令行"><a href="#1-1-创建文件夹webpack4-demo，进入文件夹打开cmd命令行" class="headerlink" title="1.1. 创建文件夹webpack4_demo，进入文件夹打开cmd命令行"></a>1.1. 创建文件夹webpack4_demo，进入文件夹打开cmd命令行</h2><h2 id="1-2-输入npm-init-初始化package-json"><a href="#1-2-输入npm-init-初始化package-json" class="headerlink" title="1.2. 输入npm init 初始化package.json"></a>1.2. 输入<code>npm init</code> 初始化package.json</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;webpack4_demo&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;author&quot;: &quot;&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="1-3-安装webpack依赖"><a href="#1-3-安装webpack依赖" class="headerlink" title="1.3. 安装webpack依赖"></a>1.3. 安装webpack依赖</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i webpack webpack-cli -D // -D 即 -save-dev    版本4.x以上需要安装webpack-cli</span><br><span class="line">npm i webpack-merge -D</span><br><span class="line">npm i webpack-dev-server -D</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-1-webpack-cli"><a href="#1-3-1-webpack-cli" class="headerlink" title="1.3.1. webpack-cli"></a>1.3.1. webpack-cli</h3><p><a href="https://www.npmjs.com/package/webpack-cli" target="_blank" rel="noopener">webpack-cli</a></p>
+<p><code>webpack CLI</code>提供了一组灵活的命令，供开发人员在设置自定义<code>webpack</code>项目时提高速度。</p>
+<p>从<code>webpack v4</code>开始，<code>webpack</code>不再需要配置文件，但是开发人员经常希望根据其用例和需求创建更自定义的<code>webpack</code>配置。<code>webpack CLI</code>通过提供一组工具来改善自定义<code>Webpack</code>配置的设置，从而满足了这些需求。</p>
+<h3 id="1-3-2-webpack-merge"><a href="#1-3-2-webpack-merge" class="headerlink" title="1.3.2. webpack-merge"></a>1.3.2. webpack-merge</h3><p><a href="https://www.npmjs.com/package/webpack-merge" target="_blank" rel="noopener">webpack-merge</a></p>
+<p><code>webpack-merge</code>提供了<code>merge</code>连接数组并合并对象以创建新对象的功能。如果遇到函数，它将执行它们，通过算法运行结果，然后将返回的值再次包装在函数中。</p>
+<p>尽管此行为具有超出其用途，但在配置<code>webpack</code>时特别有用。每当您需要合并配置对象时，<code>webpack-merge</code>都会派上用场。</p>
+<p>还有一个特定于<code>webpack</code>的合并变体，<code>merge.smart</code>该变体能够考虑到webpack的特定情况（即，它可以使加载程序定义变平）。</p>
+<h2 id="1-4-webpack配置"><a href="#1-4-webpack配置" class="headerlink" title="1.4. webpack配置"></a>1.4. webpack配置</h2><h3 id="1-4-1-用更加快捷的mode模式来优化配置文件"><a href="#1-4-1-用更加快捷的mode模式来优化配置文件" class="headerlink" title="1.4.1. 用更加快捷的mode模式来优化配置文件"></a>1.4.1. 用更加快捷的mode模式来优化配置文件</h3><p><code>webpack4</code>中提供的<code>mode</code>有两个值：<code>development</code>和<code>production</code>，默认值是 <code>production</code>。<code>mode</code>是我们为减小生产环境构建体积以及节约开发环境的构建时间提供的一种优化方案，提供对应的构建参数项的默认开启或关闭，降低配置成本。</p>
+<h4 id="1-4-1-1-开启方式-1：直接在启动命令后加入参数"><a href="#1-4-1-1-开启方式-1：直接在启动命令后加入参数" class="headerlink" title="1.4.1.1. 开启方式 1：直接在启动命令后加入参数"></a>1.4.1.1. 开启方式 1：直接在启动命令后加入参数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;dev&quot;: &quot;webpack --mode development&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;webpack --mode production&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-1-2-开启方式-2：可以在配置文件中加入一个mode属性："><a href="#1-4-1-2-开启方式-2：可以在配置文件中加入一个mode属性：" class="headerlink" title="1.4.1.2. 开启方式 2：可以在配置文件中加入一个mode属性："></a>1.4.1.2. 开启方式 2：可以在配置文件中加入一个mode属性：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  mode: &apos;production&apos; // development</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-4-1-3-development模式下，将侧重于功能调试和优化开发体验，包含如下内容："><a href="#1-4-1-3-development模式下，将侧重于功能调试和优化开发体验，包含如下内容：" class="headerlink" title="1.4.1.3. development模式下，将侧重于功能调试和优化开发体验，包含如下内容："></a>1.4.1.3. development模式下，将侧重于功能调试和优化开发体验，包含如下内容：</h4><ul>
+<li>浏览器调试工具</li>
+<li>开发阶段的详细错误日志和提示</li>
+<li>快速和优化的增量构建机制</li>
+</ul>
+<h4 id="1-4-1-4-production模式下，将侧重于模块体积优化和线上部署，包含如下内容："><a href="#1-4-1-4-production模式下，将侧重于模块体积优化和线上部署，包含如下内容：" class="headerlink" title="1.4.1.4. production模式下，将侧重于模块体积优化和线上部署，包含如下内容："></a>1.4.1.4. production模式下，将侧重于模块体积优化和线上部署，包含如下内容：</h4><ul>
+<li>开启所有的优化代码</li>
+<li>更小的bundle大小</li>
+<li>去除掉只在开发阶段运行的代码</li>
+<li>Scope hoisting和Tree-shaking</li>
+<li>自动启用uglifyjs对代码进行压缩</li>
+</ul>
+<blockquote>
+<p>webpack一直以来最饱受诟病的就是其配置门槛极高，配置内容复杂而繁琐，容易让人从入门到放弃，而它的后起之秀如rollup，parcel等均在配置流程上做了极大的优化，做到开箱即用，webpack在V4中应该也从中借鉴了不少经验来提升自身的配置效率，详见内容可以参考这篇文章<a href="https://medium.com/webpack/webpack-4-mode-and-optimization-5423a6bc597a" target="_blank" rel="noopener">《webpack 4: mode and optimization》</a></p>
+</blockquote>
+<h3 id="1-4-2-指定使用哪个配置文件"><a href="#1-4-2-指定使用哪个配置文件" class="headerlink" title="1.4.2. 指定使用哪个配置文件"></a>1.4.2. 指定使用哪个配置文件</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;build&quot;: &quot;webpack --config webpack.prod.conf.js&quot;,</span><br><span class="line">    &quot;dev&quot;: &quot;webpack-dev-server --config webpack.dev.conf.js&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-3-process-env-配置"><a href="#1-4-3-process-env-配置" class="headerlink" title="1.4.3. process.env 配置"></a>1.4.3. process.env 配置</h3><p><code>process.env</code> 属性返回一个对象，包含了当前 <code>Shell</code> 的所有环境变量。比如，<code>process.env.HOME</code> 返回用户的主目录。</p>
+<p>通常的做法是，新建一个环境变量 <code>NODE_ENV</code> ，用它确定当前所处的开发阶段，生产阶段设为 <code>production</code>，开发阶段设为 <code>development</code> 或 <code>staging</code> ，然后在脚本中读取 <code>process.env.NODE_ENV</code> 即可。<br>要说明的是，<code>NODE_ENV</code> 这个名称只是开发社区的一种共识，名称内容是可以修改的。如果需要，你也可以把它定义为 <code>NODE_abc</code> 或者 <code>xxx</code> 都行。下边我们按照约定就以 <code>NODE_ENV</code> 来说。</p>
+<p>在 <code>Webpack</code> 配置文件中，经常会看到如下类似的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  mode: process.env.NODE_ENV === &apos;production&apos; ? &apos;production&apos; : &apos;development&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>process.env</code> 是 <code>Nodejs</code> 提供的一个 <code>API</code> ，那么如果想用 <code>process.env.NODE_ENV</code> ，就必须先设置其值才能用。<br>但是如何设置 这个 <code>process.env.NODE_ENV</code> 环境变量呢？在 <code>webpack</code> 项目里，我们可以通过设置 <code>package.json</code> 来实现，但是 <code>Windows</code> 系统和 <code>Mac</code> 系统有区别。</p>
+<p><code>Windows</code> 系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;set NODE_ENV=development &amp;&amp;  webpack-dev-server --open --hot&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;set NODE_ENV=production &amp;&amp;   --progress --hide-modules&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Mac</code> 系统</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;export NODE_ENV=development &amp;&amp;  webpack-dev-server --open --hot&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;export NODE_ENV=production &amp;&amp;   --progress --hide-modules&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但它们的语法都不尽相同。这就带来两个问题：<br>那么问题又来了，我在 <code>Windows</code> 开发部署的项目，可能在 <code>Mac</code> 系统无法正常打包，反之亦然。为了解决这个问题，有人就开发了 <code>cross-env</code>。</p>
+<p><code>cross-env</code>是一个跨平台设置环境变量的第三方包，它可以让你只配置一行命令，就能轻松地在多个平台设置环境变量。首先先安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev cross-env</span><br></pre></td></tr></table></figure>
+
+<p>然后配置 <code>package.json</code> 就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// package.json</span><br><span class="line">&#123;</span><br><span class="line">  ...</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;dev&quot;: &quot;cross-env NODE_ENV=development webpack-dev-server&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;cross-env NODE_ENV=production webpack --mode=production&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最后就可以在 <code>webpack.config.js</code> 中获取环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const devMode = process.env.NODE_ENV !== &apos;production&apos;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="1-5-初始化配置文件"><a href="#1-5-初始化配置文件" class="headerlink" title="1.5. 初始化配置文件"></a>1.5. 初始化配置文件</h2><p>创建webpack配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd .&gt;webpack.base.conf.js</span><br><span class="line">cd .&gt;webpack.dev.conf.js</span><br><span class="line">cd .&gt;webpack.prod.conf.js</span><br></pre></td></tr></table></figure>
+
+
+<p>webpack.dev.conf.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const merge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const common = require(&apos;./webpack.base.conf.js&apos;);</span><br><span class="line">module.exports = merge(common, &#123;</span><br><span class="line">    mode: &apos;development&apos;,</span><br><span class="line">    devtool: &apos;cheap-module-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        host: &quot;localhost&quot;,</span><br><span class="line">        open: true,</span><br><span class="line">        port: 9999</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">        new webpack.HotModuleReplacementPlugin(),</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>webpack.prod.conf.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">const merge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const common = require(&apos;./webpack.base.conf.js&apos;);</span><br><span class="line">module.exports = merge(common, &#123;</span><br><span class="line">    mode: &apos;production&apos;,</span><br><span class="line">    devtool: &quot;source-map&quot;,</span><br><span class="line">    plugins: [</span><br><span class="line">    ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>webpack.base.conf.js</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index: &apos;./src/index.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;./dist&apos;),</span><br><span class="line">        filename: &quot;[name].[hash:8].js&quot;,</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: []</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: []</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-6-安装plugins，loaders"><a href="#1-6-安装plugins，loaders" class="headerlink" title="1.6. 安装plugins，loaders"></a>1.6. 安装plugins，loaders</h2><h3 id="1-6-1-clean-webpack-plugin"><a href="#1-6-1-clean-webpack-plugin" class="headerlink" title="1.6.1. clean-webpack-plugin"></a>1.6.1. <code>clean-webpack-plugin</code></h3><p>默认情况下，此插件将output.path在每次成功重建后删除webpack 目录中的所有文件以及所有未使用的webpack资产。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev clean-webpack-plugin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const &#123; CleanWebpackPlugin &#125; = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"> </span><br><span class="line">const webpackConfig = &#123;</span><br><span class="line">    plugins: [</span><br><span class="line">        /**</span><br><span class="line">         * All files inside webpack&apos;s output.path directory will be removed once, but the</span><br><span class="line">         * directory itself will not be. If using webpack 4+&apos;s default configuration,</span><br><span class="line">         * everything under &lt;PROJECT_DIR&gt;/dist/ will be removed.</span><br><span class="line">         * Use cleanOnceBeforeBuildPatterns to override this behavior.</span><br><span class="line">         *</span><br><span class="line">         * During rebuilds, all webpack assets that are not used anymore</span><br><span class="line">         * will be removed automatically.</span><br><span class="line">         *</span><br><span class="line">         * See `Options and Defaults` for information</span><br><span class="line">         */</span><br><span class="line">        new CleanWebpackPlugin(),</span><br><span class="line">    ],</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line">module.exports = webpackConfig;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-2-babel"><a href="#1-6-2-babel" class="headerlink" title="1.6.2. babel"></a>1.6.2. babel</h3><p><a href="https://babeljs.io/docs/en/usage" target="_blank" rel="noopener">babel 官网指南</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm i @babel/core @babel/preset-env @babel/plugin-transform-runtime -D</span><br><span class="line">npm i @babel/runtime-corejs3</span><br><span class="line">npm i -D babel-loader</span><br></pre></td></tr></table></figure>
+
+<p><code>babel.config.js</code> 配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  presets: [</span><br><span class="line">    [</span><br><span class="line">      &apos;@babel/env&apos;,</span><br><span class="line">      &#123;</span><br><span class="line">        targets: &#123;</span><br><span class="line">          browsers: [&apos;&gt; 1%&apos;, &apos;last 2 versions&apos;, &apos;not dead&apos;]</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ],</span><br><span class="line">  plugins: [</span><br><span class="line">    [</span><br><span class="line">      &apos;@babel/plugin-transform-runtime&apos;,</span><br><span class="line">      &#123;</span><br><span class="line">        corejs: 3</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>该方案支持所有，包括转译语法，API 及实例方法的 polyfill。</li>
+<li>该方案不会污染全局</li>
+</ul>
+<h3 id="1-6-3-sass"><a href="#1-6-3-sass" class="headerlink" title="1.6.3. sass"></a>1.6.3. sass</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev css-loader</span><br><span class="line">npm install --save-dev style-loader</span><br><span class="line">npm install sass-loader node-sass webpack --save-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.s[ac]ss$/i,</span><br><span class="line">        use: [</span><br><span class="line">          // Creates `style` nodes from JS strings</span><br><span class="line">          &apos;style-loader&apos;,</span><br><span class="line">          // Translates CSS into CommonJS</span><br><span class="line">          &apos;css-loader&apos;,</span><br><span class="line">          // Compiles Sass to CSS</span><br><span class="line">          &apos;sass-loader&apos;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="1-6-3-1-node-sass安装失败处理"><a href="#1-6-3-1-node-sass安装失败处理" class="headerlink" title="1.6.3.1. node-sass安装失败处理"></a>1.6.3.1. node-sass安装失败处理</h4><p>项目根路径下创建<code>.npmrc</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">phantomjs_cdnurl=http://cnpmjs.org/downloads</span><br><span class="line">sass_binary_site=https://npm.taobao.org/mirrors/node-sass/</span><br><span class="line">registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>重新运行之前的安装命令</p>
+<h3 id="1-6-4-HtmlWebpackPlugin"><a href="#1-6-4-HtmlWebpackPlugin" class="headerlink" title="1.6.4. HtmlWebpackPlugin"></a>1.6.4. HtmlWebpackPlugin</h3><p><code>HtmlWebpackPlugin</code>简化了HTML文件的创建，以便为你的<code>webpack</code>包提供服务。这对于在文件名中包含每次会随着编译而发生变化哈希的 <code>webpack bundle</code> 尤其有用。 你可以让插件为你生成一个<code>HTML</code>文件，使用<code>lodash</code>模板提供你自己的模板，或使用你自己的<code>loader</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev html-webpack-plugin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">  new HtmlWebpackPlugin(&#123; // 打包输出HTML</span><br><span class="line">      title: &apos;Hello World app&apos;,</span><br><span class="line">      minify: &#123; // 压缩HTML文件</span><br><span class="line">          removeComments: true, // 移除HTML中的注释</span><br><span class="line">          collapseWhitespace: true, // 删除空白符与换行符</span><br><span class="line">          minifyCSS: true// 压缩内联css</span><br><span class="line">      &#125;,</span><br><span class="line">      filename: &apos;index.html&apos;,</span><br><span class="line">      template: path.join(__dirname,&apos;./src/index.html&apos;)</span><br><span class="line">  &#125;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-6-5-less-loader"><a href="#1-6-5-less-loader" class="headerlink" title="1.6.5. less-loader"></a>1.6.5. less-loader</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install less-loader --save-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.less$/,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &apos;style-loader&apos;, // creates style nodes from JS strings</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &apos;css-loader&apos;, // translates CSS into CommonJS</span><br><span class="line">          &#125;,</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &apos;less-loader&apos;, // compiles Less to CSS</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-6-postcss-loader"><a href="#1-6-6-postcss-loader" class="headerlink" title="1.6.6. postcss-loader"></a>1.6.6. postcss-loader</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -D postcss-loader</span><br><span class="line">npm install --save-dev autoprefixer</span><br></pre></td></tr></table></figure>
+
+<p>创建<code>postcss.config.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">    plugins:[</span><br><span class="line">        require(&quot;autoprefixer&quot;)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//webpack.config.js</span><br><span class="line">module.exports = (env) =&gt; (&#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          &apos;style-loader&apos;,</span><br><span class="line">          &apos;css-loader&apos;,</span><br><span class="line">          &apos;postcss-loader&apos;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-6-7-mini-css-extract-plugin-CSS提取插件"><a href="#1-6-7-mini-css-extract-plugin-CSS提取插件" class="headerlink" title="1.6.7. mini-css-extract-plugin CSS提取插件"></a>1.6.7. <code>mini-css-extract-plugin</code> CSS提取插件</h3><p>📢注意： MiniCssExtractPlugin 推荐只用于生产环境，因为该插件在开发环境下会导致HMR功能缺失，所以日常开发中，还是用style-loader。</p>
+<p><a href="https://webpack.docschina.org/plugins/mini-css-extract-plugin/" target="_blank" rel="noopener">MiniCssExtractPlugin 文档地址</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev mini-css-extract-plugin</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">const MiniCssExtractPlugin = require(&quot;mini-css-extract-plugin&quot;);</span><br><span class="line">const devMode = process.env.NODE_ENV !== &apos;production&apos;</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  plugins: [</span><br><span class="line">    new MiniCssExtractPlugin(&#123;</span><br><span class="line">      // Options similar to the same options in webpackOptions.output</span><br><span class="line">      // both options are optional</span><br><span class="line">      filename: devMode ? &apos;[name].css&apos; : &apos;[name].[hash].css&apos;,</span><br><span class="line">      chunkFilename: devMode ? &apos;[id].css&apos; : &apos;[id].[hash].css&apos;,</span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.(sa|sc|c)ss$/,</span><br><span class="line">        use: [</span><br><span class="line">          devMode ? &apos;style-loader&apos; : MiniCssExtractPlugin.loader,</span><br><span class="line">          &apos;css-loader&apos;,</span><br><span class="line">          &apos;postcss-loader&apos;,</span><br><span class="line">          &apos;sass-loader&apos;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-8-css优化压缩-optimize-css-assets-webpack-plugin"><a href="#1-6-8-css优化压缩-optimize-css-assets-webpack-plugin" class="headerlink" title="1.6.8. css优化压缩 optimize-css-assets-webpack-plugin"></a>1.6.8. css优化压缩 optimize-css-assets-webpack-plugin</h3><p>它将在Webpack构建期间搜索CSS资产，并优化\最小化CSS（默认情况下，它使用cssnano，但可以指定自定义CSS处理器）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev optimize-css-assets-webpack-plugin</span><br><span class="line">npm i cssnano -D</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const OptimizeCssAssetsPlugin = require(&apos;optimize-css-assets-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">// 使用cssnano配置规则</span><br><span class="line">// 先 npm i cssnano -D</span><br><span class="line">new OptimizeCssAssetsPlugin(&#123;</span><br><span class="line">    // 默认是全部的CSS都压缩，该字段可以指定某些要处理的文件</span><br><span class="line">    assetNameRegExp: /\.(sa|sc|c)ss$/g,</span><br><span class="line">    // 指定一个优化css的处理器，默认cssnano</span><br><span class="line">    cssProcessor: require(&apos;cssnano&apos;),</span><br><span class="line"></span><br><span class="line">    cssProcessorPluginOptions: &#123;</span><br><span class="line">        preset: [&apos;default&apos;, &#123;</span><br><span class="line">            discardComments: &#123; removeAll: true &#125;, //对注释的处理</span><br><span class="line">            normalizeUnicode: false // 建议false,否则在使用unicode-range的时候会产生乱码</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;,</span><br><span class="line">    canPrint: true  // 是否打印编译过程中的日志</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="1-6-9-url-loader"><a href="#1-6-9-url-loader" class="headerlink" title="1.6.9. url-loader"></a>1.6.9. url-loader</h3><p>如果页面图片较多，发很多http请求，会降低页面性能。这个问题可以通过url-loader解决。url-loader会将引入的图片编码，生成dataURl并将其打包到文件中，最终只需要引入这个dataURL就能访问图片了。当然，如果图片较大，编码会消耗性能。因此url-loader提供了一个limit参数，小于limit字节的文件会被转为DataURl，大于limit的还会使用file-loader进行copy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install url-loader --save-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.(png|jpg|gif)$/i,</span><br><span class="line">        use: [</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &apos;url-loader&apos;,</span><br><span class="line">            options: &#123;</span><br><span class="line">              limit: 8192,</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;,</span><br><span class="line">        ],</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-6-10-file-loader"><a href="#1-6-10-file-loader" class="headerlink" title="1.6.10. file-loader"></a>1.6.10. file-loader</h3><p>在css文件中定义background的属性或者在html中引入image的src，我们知道在webpack打包后这些图片会打包至定义好的一个文件夹下，和开发时候的相对路径会不一样，这就会导致导入图片路径的错误。而file-loader正是为了解决此类问题而产生的，他修改打包后图片的储存路径，再根据配置修改我们引用的路径，使之对应引入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install file-loader --save-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.(png|jpe?g|gif)$/i,</span><br><span class="line">        loader: &apos;file-loader&apos;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          name: &apos;[path][name].[ext]&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-6-11-optimization-优化持久化缓存"><a href="#1-6-11-optimization-优化持久化缓存" class="headerlink" title="1.6.11. optimization 优化持久化缓存"></a>1.6.11. optimization 优化持久化缓存</h3><p>最初，块（及其内部导入的模块）通过内部Webpack图形中的父子关系连接。将<code>CommonsChunkPlugin</code>被用来避免在这些重复的依赖，但进一步的优化是不可能的。</p>
+<p>从<code>webpack v4</code>开始，<code>CommonsChunkPlugin</code>删除了，而改为<code>optimization.splitChunks</code>。</p>
+<p><a href="https://webpack.docschina.org/plugins/split-chunks-plugin/" target="_blank" rel="noopener">SplitChunks插件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  //...</span><br><span class="line">  optimization: &#123;</span><br><span class="line">    splitChunks: &#123;</span><br><span class="line">        chunks: &apos;async&apos;,</span><br><span class="line">        // 拆分前必须共享模块的最小块数。</span><br><span class="line">        minSize: 30000,</span><br><span class="line">        // maxSize享有比更高的优先权maxInitialRequest/maxAsyncRequests。实际优先级为maxInitialRequest/maxAsyncRequests &lt; maxSize &lt; minSize。</span><br><span class="line">        maxSize: 0,</span><br><span class="line">        // 拆分前必须共享模块的最小块数。</span><br><span class="line">        minChunks: 1,</span><br><span class="line">        // 按需加载时最大并行请求数</span><br><span class="line">        maxAsyncRequests: 5,</span><br><span class="line">        // 入口点的最大并行请求数。</span><br><span class="line">        maxInitialRequests: 3,</span><br><span class="line">        // 指定用于生成名称的定界符</span><br><span class="line">        automaticNameDelimiter: &apos;~&apos;,</span><br><span class="line">        // 允许设置由生成的块名称的最大字符数</span><br><span class="line">        automaticNameMaxLength: 30,</span><br><span class="line">        name: true,</span><br><span class="line">        // 缓存组可以继承和/或覆盖splitChunks.*;中的任何选项</span><br><span class="line">        cacheGroups: &#123;</span><br><span class="line">            vendors: &#123;</span><br><span class="line">                test: /[\\/]node_modules[\\/]/,</span><br><span class="line">                priority: -10</span><br><span class="line">            &#125;,</span><br><span class="line">            default: &#123;</span><br><span class="line">                minChunks: 2,</span><br><span class="line">                priority: -20,</span><br><span class="line">                reuseExistingChunk: true</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="1-7-引入bootstrap"><a href="#1-7-引入bootstrap" class="headerlink" title="1.7. 引入bootstrap"></a>1.7. 引入bootstrap</h2><p><a href="https://getbootstrap.com/docs/4.3/getting-started/webpack/" target="_blank" rel="noopener">bootstrap官方文档</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install --save jquery popper.js</span><br><span class="line">npm install bootstrap</span><br></pre></td></tr></table></figure>
+<p><code>Bootstrap</code>依赖于<code>jQuery</code>和<code>Popper</code>，它们定义为<code>peerDependencies</code>，这意味着您必须确保将它们都添加到<code>package.json</code></p>
+<p>通过将以下行添加到应用的入口文件中（通常是<code>index.js</code>或<code>app.js</code>）来导入<code>Bootstrap</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;bootstrap&apos;;</span><br></pre></td></tr></table></figure>
+<p>或者，您可以根据需要分别导入插件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import &apos;bootstrap/js/dist/util&apos;;</span><br><span class="line">import &apos;bootstrap/js/dist/alert&apos;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-7-1-导入预编译的Sass"><a href="#1-7-1-导入预编译的Sass" class="headerlink" title="1.7.1. 导入预编译的Sass"></a>1.7.1. 导入预编译的Sass</h3><p>要充分发挥Bootstrap的潜力并根据需要对其进行自定义，请将源文件用作项目捆绑过程的一部分。</p>
+<p>首先，创建您自己的文件，_custom.scss并使用它覆盖内置的自定义变量。然后，使用您的主Sass文件导入您的自定义变量，然后导入<code>Bootstrap</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$primary:       #e95420 !default;</span><br><span class="line">$secondary:     #0e8420 !default;</span><br><span class="line">$success:       #fff !default;</span><br><span class="line">$light:         #e8cd56 !default;</span><br><span class="line">$dark:          #e95420 !default;</span><br><span class="line"></span><br><span class="line">$input-bg: #c34113;</span><br><span class="line">$input-border-color: #c34113;</span><br><span class="line">$input-placeholder-color: #ccc;</span><br><span class="line">$input-color: #fff;</span><br><span class="line"></span><br><span class="line">$jumbotron-bg: rgb(247, 247, 247);</span><br><span class="line"></span><br><span class="line">@import &quot;~bootstrap/scss/bootstrap&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>为了使<code>Bootstrap</code>进行编译，请确保安装并使用所需的加载程序：<code>sass-loader</code>，<code>postcss-loader</code>和<code>Autoprefixer</code>。通过最少的设置，您的<code>webpack</code>配置应包含此规则或类似规则：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  test: /\.(scss)$/,</span><br><span class="line">  use: [&#123;</span><br><span class="line">    loader: &apos;style-loader&apos;, // inject CSS to page</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    loader: &apos;css-loader&apos;, // translates CSS into CommonJS modules</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    loader: &apos;postcss-loader&apos;, // Run postcss actions</span><br><span class="line">    options: &#123;</span><br><span class="line">      plugins: function () &#123; // postcss plugins, can be exported to postcss.config.js</span><br><span class="line">        return [</span><br><span class="line">          require(&apos;autoprefixer&apos;)</span><br><span class="line">        ];</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;, &#123;</span><br><span class="line">    loader: &apos;sass-loader&apos; // compiles Sass to CSS</span><br><span class="line">  &#125;]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-7-2-导入编译的CSS"><a href="#1-7-2-导入编译的CSS" class="headerlink" title="1.7.2. 导入编译的CSS"></a>1.7.2. 导入编译的CSS</h3><p>另外，您可以通过将Bootstrap的现成CSS添加到项目的入口点来使用它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;bootstrap/dist/css/bootstrap.min.css&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，您可以使用现有规则，css而无需对webpack配置进行任何特殊修改，除非您不需要<code>sass-loader</code>仅<code>style-loader</code>和<code>css-loader</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">module: &#123;</span><br><span class="line">  rules: [</span><br><span class="line">    &#123;</span><br><span class="line">      test: /\.css$/,</span><br><span class="line">      use: [&apos;style-loader&apos;, &apos;css-loader&apos;]</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h1 id="2-webpack项目添加react"><a href="#2-webpack项目添加react" class="headerlink" title="2. webpack项目添加react"></a>2. webpack项目添加react</h1><p><a href="https://www.html.cn/archives/9436" target="_blank" rel="noopener">https://www.html.cn/archives/9436</a></p>
+<h2 id="2-1-添加-babel-preset-react"><a href="#2-1-添加-babel-preset-react" class="headerlink" title="2.1. 添加@babel/preset-react"></a>2.1. 添加<code>@babel/preset-react</code></h2><p><a href="https://www.babeljs.cn/docs/babel-preset-react" target="_blank" rel="noopener">https://www.babeljs.cn/docs/babel-preset-react</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/preset-react</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//babel.config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [</span><br><span class="line">    [</span><br><span class="line">      &quot;@babel/preset-react&quot;,</span><br><span class="line">      &#123;</span><br><span class="line">        &quot;pragma&quot;: &quot;dom&quot;, // default pragma is React.createElement</span><br><span class="line">        &quot;pragmaFrag&quot;: &quot;DomFrag&quot;, // default is React.Fragment</span><br><span class="line">        &quot;throwIfNamespace&quot;: false // defaults to true</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/20191012145636.jpg" alt=""></p>
+<h2 id="2-2-babel-plugin-proposal-class-properties"><a href="#2-2-babel-plugin-proposal-class-properties" class="headerlink" title="2.2. @babel/plugin-proposal-class-properties"></a>2.2. <code>@babel/plugin-proposal-class-properties</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/plugin-proposal-class-properties</span><br><span class="line"></span><br><span class="line">//babel.config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [&quot;@babel/plugin-proposal-class-properties&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-添加babel-loader中添加jsx"><a href="#2-3-添加babel-loader中添加jsx" class="headerlink" title="2.3. 添加babel-loader中添加jsx"></a>2.3. 添加babel-loader中添加jsx</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.(js|jsx)$/,</span><br><span class="line">        exclude: /node_modules/,</span><br><span class="line">        use: [&apos;babel-loader&apos;]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  resolve: &#123;</span><br><span class="line">    extensions: [&apos;*&apos;, &apos;.js&apos;, &apos;.jsx&apos;]</span><br><span class="line">  &#125;</span><br><span class="line"> ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-4-引入react"><a href="#2-4-引入react" class="headerlink" title="2.4. 引入react"></a>2.4. 引入react</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react react-dom</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>index.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line"></span><br><span class="line">const title = &apos;My Minimal React Webpack Babel Setup&apos;;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;div&gt;&#123;title&#125;&lt;/div&gt;,</span><br><span class="line">  document.getElementById(&apos;app&apos;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-5-配置热加载"><a href="#2-5-配置热加载" class="headerlink" title="2.5. 配置热加载"></a>2.5. 配置热加载</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev react-hot-loader</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>webpack.config.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  ...</span><br><span class="line">  plugins: [</span><br><span class="line">    new webpack.HotModuleReplacementPlugin()</span><br><span class="line">  ],</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    contentBase: &apos;./dist&apos;,</span><br><span class="line">    hot: true</span><br><span class="line">  &#125;</span><br><span class="line">  ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>修改<code>index.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import React from &apos;react&apos;;</span><br><span class="line">import ReactDOM from &apos;react-dom&apos;;</span><br><span class="line"></span><br><span class="line">const title = &apos;My Minimal React Webpack Babel Setup&apos;;</span><br><span class="line"></span><br><span class="line">ReactDOM.render(</span><br><span class="line">  &lt;div&gt;&#123;title&#125;&lt;/div&gt;,</span><br><span class="line">  document.getElementById(&apos;app&apos;)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">+ module.hot.accept();</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-6-引入ant"><a href="#2-6-引入ant" class="headerlink" title="2.6. 引入ant"></a>2.6. 引入ant</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install antd --save</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">  // src/App.js</span><br><span class="line">  import React, &#123; Component &#125; from &apos;react&apos;;</span><br><span class="line">- import Button from &apos;antd/es/button&apos;;</span><br><span class="line">+ import &#123; Button &#125; from &apos;antd&apos;;</span><br><span class="line">  import &apos;./App.css&apos;;</span><br><span class="line"></span><br><span class="line">  class App extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">      return (</span><br><span class="line">        &lt;div className=&quot;App&quot;&gt;</span><br><span class="line">          &lt;Button type=&quot;primary&quot;&gt;Button&lt;/Button&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  export default App;</span><br></pre></td></tr></table></figure>
+<p>自定义antd主题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">// webpack.config.js</span><br><span class="line">module.exports = &#123;</span><br><span class="line">  rules: [&#123;</span><br><span class="line">    test: /\.less$/,</span><br><span class="line">    use: [&#123;</span><br><span class="line">      loader: &apos;style-loader&apos;,</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      loader: &apos;css-loader&apos;, // translates CSS into CommonJS</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">      loader: &apos;less-loader&apos;, // compiles Less to CSS</span><br><span class="line">+     options: &#123;</span><br><span class="line">+       modifyVars: &#123;</span><br><span class="line">+         &apos;primary-color&apos;: &apos;#1DA57A&apos;,</span><br><span class="line">+         &apos;link-color&apos;: &apos;#1DA57A&apos;,</span><br><span class="line">+         &apos;border-radius-base&apos;: &apos;2px&apos;,</span><br><span class="line">+         // or</span><br><span class="line">+         &apos;hack&apos;: `true; @import &quot;$&#123;path.resolve(&apos;./src&apos;)&#125;\\ant-theme.less&quot;;`, // Override with less file</span><br><span class="line">+       &#125;,</span><br><span class="line">+       javascriptEnabled: true,</span><br><span class="line">+     &#125;,</span><br><span class="line">    &#125;],</span><br><span class="line">    // ...other rules</span><br><span class="line">  &#125;],</span><br><span class="line">  // ...other config</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ant-theme.less</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@primary-color: #1890ff; // 全局主色</span><br><span class="line">@link-color: #1890ff; // 链接色</span><br><span class="line">@success-color: #52c41a; // 成功色</span><br><span class="line">@warning-color: #faad14; // 警告色</span><br><span class="line">@error-color: #f5222d; // 错误色</span><br><span class="line">@font-size-base: 14px; // 主字号</span><br><span class="line">@heading-color: rgba(0, 0, 0, 0.85); // 标题色</span><br><span class="line">@text-color: rgba(0, 0, 0, 0.65); // 主文本色</span><br><span class="line">@text-color-secondary : rgba(0, 0, 0, .45); // 次文本色</span><br><span class="line">@disabled-color : rgba(0, 0, 0, .25); // 失效色</span><br><span class="line">@border-radius-base: 4px; // 组件/浮层圆角</span><br><span class="line">@border-color-base: #d9d9d9; // 边框色</span><br><span class="line">@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15); // 浮层阴影</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>添加react-router<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-router-dom</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h2 id="2-7-React-lazy-和-Suspense"><a href="#2-7-React-lazy-和-Suspense" class="headerlink" title="2.7. React.lazy() 和 Suspense"></a>2.7. React.lazy() 和 Suspense</h2><p><a href="http://www.ptbird.cn/react-lazy-suspense-error-boundaries.html" target="_blank" rel="noopener">参考文章</a></p>
+<p><code>React.lazy()</code></p>
+<p>动态 import 主要应用场景是延迟加载方法，对于组件来说，并不是很适用，但是 React.lazy 对于组件的加载则是有比较大的帮助。</p>
+<blockquote>
+<p>目前明确指出，React.lazy 和 suspense 并不适用于服务端渲染</p>
+</blockquote>
+<p>之前代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import OtherComponent from &apos;./OtherComponent&apos;;</span><br><span class="line"></span><br><span class="line">function MyComponent() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;OtherComponent /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>之后：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const OtherComponent = React.lazy(() =&gt; import(&apos;./OtherComponent&apos;));</span><br><span class="line"></span><br><span class="line">function MyComponent() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;OtherComponent /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-7-1-Suspense"><a href="#2-7-1-Suspense" class="headerlink" title="2.7.1. Suspense"></a>2.7.1. Suspense</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component, Suspense &#125; from &apos;react&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>既然是延迟加载，就会有一个加载过程，之前在渲染的时候，我们基本都是自顶一个一个 <code>&lt;Loading&gt;</code> 组件，然后通过变量控制进行操作，如果加载完成，则取消掉 <code>&lt;Loading&gt;</code> 组件。</p>
+<p>如果直接使用 <code>React.lazy</code>，会报错误：需要一个 <code>placeholder ui</code><br><img src="https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/20191014155626.png" alt=""><br>既然是延迟加载，就一定会有一个<code>loading</code>的过程，而 <code>Suspense</code> 正是完成这个过程。</p>
+<h3 id="2-7-2-在组件中使用错误边界"><a href="#2-7-2-在组件中使用错误边界" class="headerlink" title="2.7.2. 在组件中使用错误边界"></a>2.7.2. 在组件中使用错误边界</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123;Component&#125; from &apos;react&apos;;</span><br><span class="line"></span><br><span class="line">class Error extends Component &#123;</span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123; error: null, errorInfo: null &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  componentDidCatch(error, errorInfo) &#123;</span><br><span class="line">    // Catch errors in any components below and re-render with error message</span><br><span class="line">    this.setState(&#123;</span><br><span class="line">      error: error,</span><br><span class="line">      errorInfo: errorInfo</span><br><span class="line">    &#125;)</span><br><span class="line">    // You can also log error messages to an error reporting service here</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  render() &#123;</span><br><span class="line">    if (this.state.errorInfo) &#123;</span><br><span class="line">      // Error path</span><br><span class="line">      return (</span><br><span class="line">        &lt;div&gt;</span><br><span class="line">          &lt;h2&gt;Something went wrong.&lt;/h2&gt;</span><br><span class="line">          &lt;details style=&#123;&#123; whiteSpace: &apos;pre-wrap&apos; &#125;&#125;&gt;</span><br><span class="line">            &#123;this.state.error &amp;&amp; this.state.error.toString()&#125;</span><br><span class="line">            &lt;br /&gt;</span><br><span class="line">            &#123;this.state.errorInfo.componentStack&#125;</span><br><span class="line">          &lt;/details&gt;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    // Normally, just render children</span><br><span class="line">    return this.props.children;</span><br><span class="line">  &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default Error;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//app.js</span><br><span class="line"></span><br><span class="line">&lt;Error&gt;</span><br><span class="line">    &lt;Suspense fallback=&#123;&lt;div&gt;Loading...&lt;/div&gt;&#125;&gt;</span><br><span class="line">        &lt;Switch&gt;</span><br><span class="line">            &lt;Redirect from=&quot;/&quot; exact to=&quot;/food&quot; /&gt;</span><br><span class="line">            &lt;Route path=&quot;/food&quot; component=&#123;Food&#125; /&gt;</span><br><span class="line">            &lt;Route path=&quot;/wiki&quot; component=&#123;Wiki&#125; /&gt;</span><br><span class="line">            &lt;Route path=&quot;/profile&quot; component=&#123;Profile&#125; /&gt;</span><br><span class="line">            &lt;Route component=&#123;Page404&#125; /&gt;</span><br><span class="line">        &lt;/Switch&gt;</span><br><span class="line">    &lt;/Suspense&gt;</span><br><span class="line">&lt;/Error</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//Wiki.js</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">  throw new Error(&apos;I crashed!&apos;);</span><br><span class="line">  return (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">      &lt;p&gt;&#123;this.state.title&#125;&lt;/p&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/20191014162254.png" alt=""></p>
+<h1 id="3-添加redux"><a href="#3-添加redux" class="headerlink" title="3. 添加redux"></a>3. 添加redux</h1><p><a href="https://redux.js.org/basics/example" target="_blank" rel="noopener">https://redux.js.org/basics/example</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install redux --S</span><br><span class="line">npm install react-redux --S</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-1-使用装饰器模式"><a href="#3-1-使用装饰器模式" class="headerlink" title="3.1. 使用装饰器模式"></a>3.1. 使用装饰器模式</h2><p><a href="https://babeljs.io/docs/en/babel-plugin-proposal-decorators" target="_blank" rel="noopener">https://babeljs.io/docs/en/babel-plugin-proposal-decorators</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/plugin-proposal-decorators</span><br></pre></td></tr></table></figure>
+<p>Add the following line to your .babelrc file:</p>
+<p>If you are including your plugins manually and using @babel/plugin-proposal-class-properties, make sure that @babel/plugin-proposal-decorators comes before @babel/plugin-proposal-class-properties.</p>
+<p>When using the legacy: true mode, @babel/plugin-proposal-class-properties must be used in loose mode to support the @babel/plugin-proposal-decorators.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    &quot;@babel/plugin-proposal-decorators&quot;,</span><br><span class="line">    &quot;@babel/plugin-proposal-class-properties&quot;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//or </span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [</span><br><span class="line">    [&quot;@babel/plugin-proposal-decorators&quot;, &#123; &quot;legacy&quot;: true &#125;],</span><br><span class="line">    [&quot;@babel/plugin-proposal-class-properties&quot;, &#123; &quot;loose&quot; : true &#125;]</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">import React, &#123; Component &#125; from &apos;react&apos;</span><br><span class="line">import &#123; connect &#125; from &apos;react-redux&apos;</span><br><span class="line">import &#123; toggleTodo &#125; from &apos;../actions&apos;</span><br><span class="line">import Todo from &apos;../components/Todo&apos;</span><br><span class="line"></span><br><span class="line">const getVisibleTodos = (todos, filter) =&gt; &#123;</span><br><span class="line">    switch (filter) &#123;</span><br><span class="line">        case &apos;SHOW_COMPLETED&apos;:</span><br><span class="line">            return todos.filter(t =&gt; t.completed)</span><br><span class="line">        case &apos;SHOW_ACTIVE&apos;:</span><br><span class="line">            return todos.filter(t =&gt; !t.completed)</span><br><span class="line">        case &apos;SHOW_ALL&apos;:</span><br><span class="line">        default:</span><br><span class="line">            return todos</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mapStateToProps = state =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        todos: getVisibleTodos(state.todos, state.visibilityFilter)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mapDispatchToProps = dispatch =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        onTodoClick: id =&gt; &#123;</span><br><span class="line">            dispatch(toggleTodo(id))</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@connect(mapStateToProps, mapDispatchToProps)</span><br><span class="line">export default class VisibleTodoList extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;ul&gt;</span><br><span class="line">                &#123;this.props.todos.map(todo =&gt; (</span><br><span class="line">                    &lt;Todo key=&#123;todo.id&#125; &#123;...todo&#125; onClick=&#123;() =&gt; this.props.onTodoClick(todo.id)&#125; /&gt;</span><br><span class="line">                ))&#125;</span><br><span class="line">            &lt;/ul&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-添加redux-devtools"><a href="#3-2-添加redux-devtools" class="headerlink" title="3.2. 添加redux-devtools"></a>3.2. 添加redux-devtools</h2><p><a href="https://github.com/zalmoxisus/redux-devtools-extension" target="_blank" rel="noopener">https://github.com/zalmoxisus/redux-devtools-extension</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let store = createStore(todoApp, /* preloadedState, */</span><br><span class="line">    window.__REDUX_DEVTOOLS_EXTENSION__ &amp;&amp; window.__REDUX_DEVTOOLS_EXTENSION__())</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-添加链式取值插件"><a href="#3-3-添加链式取值插件" class="headerlink" title="3.3. 添加链式取值插件"></a>3.3. 添加链式取值插件</h2><p><a href="https://babeljs.io/docs/en/next/babel-plugin-proposal-optional-chaining" target="_blank" rel="noopener">@babel/plugin-proposal-optional-chaining</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev @babel/plugin-proposal-optional-chaining</span><br><span class="line"></span><br><span class="line">//babel.config.js</span><br><span class="line">&#123;</span><br><span class="line">  &quot;plugins&quot;: [&quot;@babel/plugin-proposal-optional-chaining&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/learn/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/webpack//" class="article-tag-list-link color3">webpack</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://fangwenzheng88.github.io/2019/10/31/webpack4%E6%90%AD%E5%BB%BA/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          冒泡排序
+        
+      </div>
+    </a>
+  
+  
+    <a href="/learn/2019/10/31/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">快速排序</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left" onclick="showToc(event)">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content" onclick="stopProp(event)">
+                    <div class="toc-article">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-初始化项目"><span class="toc-number">1.</span> <span class="toc-text">1. 初始化项目</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-创建文件夹webpack4-demo，进入文件夹打开cmd命令行"><span class="toc-number">1.1.</span> <span class="toc-text">1.1. 创建文件夹webpack4_demo，进入文件夹打开cmd命令行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-输入npm-init-初始化package-json"><span class="toc-number">1.2.</span> <span class="toc-text">1.2. 输入npm init 初始化package.json</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-安装webpack依赖"><span class="toc-number">1.3.</span> <span class="toc-text">1.3. 安装webpack依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-1-webpack-cli"><span class="toc-number">1.3.1.</span> <span class="toc-text">1.3.1. webpack-cli</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-2-webpack-merge"><span class="toc-number">1.3.2.</span> <span class="toc-text">1.3.2. webpack-merge</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-webpack配置"><span class="toc-number">1.4.</span> <span class="toc-text">1.4. webpack配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-1-用更加快捷的mode模式来优化配置文件"><span class="toc-number">1.4.1.</span> <span class="toc-text">1.4.1. 用更加快捷的mode模式来优化配置文件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-1-开启方式-1：直接在启动命令后加入参数"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">1.4.1.1. 开启方式 1：直接在启动命令后加入参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-2-开启方式-2：可以在配置文件中加入一个mode属性："><span class="toc-number">1.4.1.2.</span> <span class="toc-text">1.4.1.2. 开启方式 2：可以在配置文件中加入一个mode属性：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-3-development模式下，将侧重于功能调试和优化开发体验，包含如下内容："><span class="toc-number">1.4.1.3.</span> <span class="toc-text">1.4.1.3. development模式下，将侧重于功能调试和优化开发体验，包含如下内容：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-1-4-production模式下，将侧重于模块体积优化和线上部署，包含如下内容："><span class="toc-number">1.4.1.4.</span> <span class="toc-text">1.4.1.4. production模式下，将侧重于模块体积优化和线上部署，包含如下内容：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-2-指定使用哪个配置文件"><span class="toc-number">1.4.2.</span> <span class="toc-text">1.4.2. 指定使用哪个配置文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-3-process-env-配置"><span class="toc-number">1.4.3.</span> <span class="toc-text">1.4.3. process.env 配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-初始化配置文件"><span class="toc-number">1.5.</span> <span class="toc-text">1.5. 初始化配置文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-6-安装plugins，loaders"><span class="toc-number">1.6.</span> <span class="toc-text">1.6. 安装plugins，loaders</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-1-clean-webpack-plugin"><span class="toc-number">1.6.1.</span> <span class="toc-text">1.6.1. clean-webpack-plugin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-2-babel"><span class="toc-number">1.6.2.</span> <span class="toc-text">1.6.2. babel</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-3-sass"><span class="toc-number">1.6.3.</span> <span class="toc-text">1.6.3. sass</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-3-1-node-sass安装失败处理"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">1.6.3.1. node-sass安装失败处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-4-HtmlWebpackPlugin"><span class="toc-number">1.6.4.</span> <span class="toc-text">1.6.4. HtmlWebpackPlugin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-5-less-loader"><span class="toc-number">1.6.5.</span> <span class="toc-text">1.6.5. less-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-6-postcss-loader"><span class="toc-number">1.6.6.</span> <span class="toc-text">1.6.6. postcss-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-7-mini-css-extract-plugin-CSS提取插件"><span class="toc-number">1.6.7.</span> <span class="toc-text">1.6.7. mini-css-extract-plugin CSS提取插件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-8-css优化压缩-optimize-css-assets-webpack-plugin"><span class="toc-number">1.6.8.</span> <span class="toc-text">1.6.8. css优化压缩 optimize-css-assets-webpack-plugin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-9-url-loader"><span class="toc-number">1.6.9.</span> <span class="toc-text">1.6.9. url-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-10-file-loader"><span class="toc-number">1.6.10.</span> <span class="toc-text">1.6.10. file-loader</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-6-11-optimization-优化持久化缓存"><span class="toc-number">1.6.11.</span> <span class="toc-text">1.6.11. optimization 优化持久化缓存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-7-引入bootstrap"><span class="toc-number">1.7.</span> <span class="toc-text">1.7. 引入bootstrap</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-1-导入预编译的Sass"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.7.1. 导入预编译的Sass</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7-2-导入编译的CSS"><span class="toc-number">1.7.2.</span> <span class="toc-text">1.7.2. 导入编译的CSS</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-webpack项目添加react"><span class="toc-number">2.</span> <span class="toc-text">2. webpack项目添加react</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-添加-babel-preset-react"><span class="toc-number">2.1.</span> <span class="toc-text">2.1. 添加@babel/preset-react</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-babel-plugin-proposal-class-properties"><span class="toc-number">2.2.</span> <span class="toc-text">2.2. @babel/plugin-proposal-class-properties</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-添加babel-loader中添加jsx"><span class="toc-number">2.3.</span> <span class="toc-text">2.3. 添加babel-loader中添加jsx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-4-引入react"><span class="toc-number">2.4.</span> <span class="toc-text">2.4. 引入react</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-5-配置热加载"><span class="toc-number">2.5.</span> <span class="toc-text">2.5. 配置热加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-6-引入ant"><span class="toc-number">2.6.</span> <span class="toc-text">2.6. 引入ant</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-7-React-lazy-和-Suspense"><span class="toc-number">2.7.</span> <span class="toc-text">2.7. React.lazy() 和 Suspense</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-1-Suspense"><span class="toc-number">2.7.1.</span> <span class="toc-text">2.7.1. Suspense</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-7-2-在组件中使用错误边界"><span class="toc-number">2.7.2.</span> <span class="toc-text">2.7.2. 在组件中使用错误边界</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-添加redux"><span class="toc-number">3.</span> <span class="toc-text">3. 添加redux</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-使用装饰器模式"><span class="toc-number">3.1.</span> <span class="toc-text">3.1. 使用装饰器模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-添加redux-devtools"><span class="toc-number">3.2.</span> <span class="toc-text">3.2. 添加redux-devtools</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-添加链式取值插件"><span class="toc-number">3.3.</span> <span class="toc-text">3.3. 添加链式取值插件</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+<script>
+    function showToc(event) {
+        var ele = event.currentTarget;
+        var flag = ele.classList.contains('toc-container-avtive');
+        if (flag) {
+            ele.classList.remove('toc-container-avtive');
+        } else {
+            ele.classList.add('toc-container-avtive');
+        }
+    }
+
+    function stopProp(event){
+        event.stopPropagation();
+    }
+</script>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+	<div class="outer">
+		<div id="footer-info">
+			<div class="footer-left">
+				&copy; 2020 新许88
+			</div>
+			<div class="footer-right">
+				<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a
+					href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+			</div>
+		</div>
+	</div>
+	
+		<!-- 不蒜子统计 -->
+		<span id="busuanzi_container_site_pv">
+			本站总访问量<span id="busuanzi_value_site_pv"></span>次
+		</span>
+		<span class="post-meta-divider">|</span>
+		<span id="busuanzi_container_site_uv" style='display:none'>
+			本站访客数<span id="busuanzi_value_site_uv"></span>人
+		</span>
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: true,
+		root: "/learn/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+<script>!function(e){var n={};function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:r})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(t.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var o in e)t.d(r,o,function(n){return e[n]}.bind(null,o));return r},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="./",t(t.s=18)}([function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.add(e)}))}else n.className+=" "+t}},function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.remove(e)}))}else{var i=new RegExp("(^|\\b)"+t.split(" ").join("|")+"(\\b|$)","gi");n.className=n.className.replace(i," ")}}},function(e,n){e.exports=function(e,n){var t,r,o=e.length;if("number"==typeof o)for(t=0;t<o;t++)n(e[t],t);else for(t in r=0,e)e.hasOwnProperty(t)&&n(e[t],t,r++);return e}},function(e,n){var t=function(){function e(e,n,t){return n||t?String.fromCharCode(n||t):i[e]||e}function n(e){return u[e]}var r=/&quot;|&lt;|&gt;|&amp;|&nbsp;|&apos;|&#(\d+);|&#(\d+)/g,o=/['<> "&]/g,i={"&quot;":'"',"&lt;":"<","&gt;":">","&amp;":"&","&nbsp;":" "},a=/\u00a0/g,l=/<br\s*\/?>/gi,c=/\r?\n/g,f=/\s/g,u={};for(var s in i)u[i[s]]=s;return i["&apos;"]="'",u["'"]="&#39;",{encode:function(e){return e?(""+e).replace(o,n).replace(c,"<br/>").replace(f,"&nbsp;"):""},decode:function(n){return n?(""+n).replace(l,"\n").replace(r,e).replace(a," "):""},encodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},encodeBase16forJSON:function(e){if(!e)return e;for(var n=[],t=0,r=(e=e.replace(/[\u4E00-\u9FBF]/gi,(function(e){return escape(e).replace("%u","\\u")}))).length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},decodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t+=2)n.push(String.fromCharCode("0x"+e.slice(t,t+2)));return n.join("")},encodeObject:function(e){if(e instanceof Array)for(var n=0,r=e.length;r>n;n++)e[n]=t.encodeObject(e[n]);else if("object"==typeof e)for(var o in e)e[o]=t.encodeObject(e[o]);else if("string"==typeof e)return t.encode(e);return e},loadScript:function(e){var n=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(n),n.setAttribute("src",e)},addLoadEvent:function(e){var n=window.onload;"function"!=typeof window.onload?window.onload=e:window.onload=function(){n(),e()}}}}();e.exports=t},function(e,n,t){"use strict";var r,o={versions:(r=window.navigator.userAgent,{trident:r.indexOf("Trident")>-1,presto:r.indexOf("Presto")>-1,webKit:r.indexOf("AppleWebKit")>-1,gecko:r.indexOf("Gecko")>-1&&-1==r.indexOf("KHTML"),mobile:!!r.match(/AppleWebKit.*Mobile.*/),ios:!!r.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),android:r.indexOf("Android")>-1||r.indexOf("Linux")>-1,iPhone:r.indexOf("iPhone")>-1||r.indexOf("Mac")>-1,iPad:r.indexOf("iPad")>-1,webApp:-1==r.indexOf("Safari"),weixin:-1==r.indexOf("MicroMessenger")})};n.a=o},,,,,,function(e,n){e.exports=function(e,n){if("string"==typeof n)return e.insertAdjacentHTML("afterend",n);var t=e.nextSibling;return t?e.parentNode.insertBefore(n,t):e.parentNode.appendChild(n)}},,,,,,,,function(e,n,t){e.exports=t(21)},,,function(e,n,t){"use strict";t.r(n);var r=t(0),o=t.n(r),i=(t(1),t(10)),a=t.n(i),l=t(4);var c={init:function(){var e=document.querySelector("#page-nav");if(e&&!document.querySelector("#page-nav .extend.prev")&&(e.innerHTML='<a class="extend prev disabled" rel="prev">&laquo; Prev</a>'+e.innerHTML),e&&!document.querySelector("#page-nav .extend.next")&&(e.innerHTML=e.innerHTML+'<a class="extend next disabled" rel="next">Next &raquo;</a>'),yiliaConfig&&yiliaConfig.open_in_new){document.querySelectorAll(".article-entry a:not(.article-more-a)").forEach(e=>{let n=e.getAttribute("target");n&&""!==n||e.setAttribute("target","_blank")})}if(yiliaConfig&&yiliaConfig.toc_hide_index){document.querySelectorAll(".toc-number").forEach(e=>{e.style.display="none"})}var n=document.querySelector("#js-aboutme");n&&0!==n.length&&(n.innerHTML=n.innerText)}},f=t(3);function u(e,n){let t=/\/|index.html/g;return e.replace(t,"")===n.replace(t,"")}function s(e,n,t,r,o){let i=function(e){for(var n=e.offsetLeft,t=e.offsetParent;null!==t;)n+=t.offsetLeft,t=t.offsetParent;return n}(e),l=function(e){for(var n=e.offsetTop,t=e.offsetParent;null!==t;)n+=t.offsetTop,t=t.offsetParent;return n}(e)-n;if(l-t<=o){let n=e.$newDom;n||(n=e.cloneNode(!0),a()(e,n),e.$newDom=n,n.style.position="fixed",n.style.top=(t||l)+"px",n.style.left=i+"px",n.style.zIndex=r||2,n.style.width="100%",n.style.color="#fff"),n.style.visibility="visible",e.style.visibility="hidden"}else{e.style.visibility="visible";let n=e.$newDom;n&&(n.style.visibility="hidden")}}function d(){let e=document.querySelector(".js-overlay"),n=document.querySelector(".js-header-menu");s(e,document.body.scrollTop,-63,2,0),s(n,document.body.scrollTop,1,3,0)}l.a.versions.mobile&&window.screen.width<800&&(function(){let e=document.querySelectorAll(".js-header-menu li a"),n=window.location.pathname;for(var t=0,r=e.length;t<r;t++){let r=e[t];u(n,r.getAttribute("href"))&&o()(r,"active")}}(),document.querySelector("#container").addEventListener("scroll",e=>{d()}),window.addEventListener("scroll",e=>{d()}),d()),Object(f.addLoadEvent)((function(){c.init()}));n.default={}}]);</script><script src="/learn/./main.eddd2a.js"></script><script>!function(){var e,t;e="/learn/slider.fbb1ed.js",t=document.createElement("script"),document.getElementsByTagName("body")[0].appendChild(t),t.setAttribute("src",e)}()</script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
+      
+        
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">H5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JavaScript异步编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Babel</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            3、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: false
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends" q-show="friends">
+  		
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+            </li>
+          
+        </ul>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

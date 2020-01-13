@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="https://fangwenzheng88.github.io">
+  <title>js继承 | 个人笔记</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1. 构造函数继承构造函数继承没有用到 prototype 这种方式比较常见，定义和使用也较为简单，下面是一个例子：  👍 可以定义私有属性方法 👍 子类可以传递参数给父类 ❌ 不能定义共享属性方法&#x2F;或写在外面失去了封装性">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js继承">
+<meta property="og:url" content="https:&#x2F;&#x2F;fangwenzheng88.github.io&#x2F;2019&#x2F;10&#x2F;31&#x2F;js%E7%BB%A7%E6%89%BF&#x2F;index.html">
+<meta property="og:site_name" content="个人笔记">
+<meta property="og:description" content="1. 构造函数继承构造函数继承没有用到 prototype 这种方式比较常见，定义和使用也较为简单，下面是一个例子：  👍 可以定义私有属性方法 👍 子类可以传递参数给父类 ❌ 不能定义共享属性方法&#x2F;或写在外面失去了封装性">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;js%E7%BB%A7%E6%89%BF001.png">
+<meta property="og:updated_time" content="2020-01-13T09:03:34.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;fangwenzheng88&#x2F;git_picture&#x2F;master&#x2F;img&#x2F;js%E7%BB%A7%E6%89%BF001.png">
+  
+    <link rel="alternative" href="/atom.xml" title="个人笔记" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/learn/favicon.ico">
+  
+  <link rel="stylesheet" type="text/css" href="/learn/./main.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+    }
+  </style>
+  
+
+  
+
+</head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #00000"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/learn" class="profilepic">
+			<img src="/learn/assets/head.svg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="/learn">新许88</a></h1>
+		</hgroup>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/learn/">主页</a></li>
+	        
+				<li><a href="/learn/categories">分类</a></li>
+	        
+				<li><a href="/learn/tags">标签</a></li>
+	        
+				<li><a href="/learn/archives">归档</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'friends')" href="javascript:void(0)">友链</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/fangwenzheng88/learn/tree/hexo" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #00000"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img src="/learn/assets/head.svg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">新许88</h1>
+			</hgroup>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/fangwenzheng88/learn/tree/hexo" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="rss" target="_blank" href="#" title="rss"><i class="icon-rss"></i></a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu"><i class="icon-zhihu"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 25%"><a href="/learn/">主页</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/categories">分类</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/tags">标签</a></li>
+		        
+					<li style="width: 25%"><a href="/learn/archives">归档</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-js继承" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      js继承
+    </h1>
+  
+
+        
+        
+	<!-- 不蒜子统计 -->
+	<span id="busuanzi_container_page_pv" style='display:none' class="archive-article-date">
+		<i class="icon-smile icon"></i> 阅读数：<span id="busuanzi_value_page_pv"></span>次
+	</span>
+
+<a href="/learn/2019/10/31/js%E7%BB%A7%E6%89%BF/" class="archive-article-date">
+	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
+			class="icon-calendar icon"></i>2019-10-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-构造函数继承"><a href="#1-构造函数继承" class="headerlink" title="1. 构造函数继承"></a>1. 构造函数继承</h1><p>构造函数继承没有用到 <code>prototype</code> 这种方式比较常见，定义和使用也较为简单，下面是一个例子：</p>
+<ul>
+<li>👍 可以定义私有属性方法</li>
+<li>👍 子类可以传递参数给父类</li>
+<li>❌ 不能定义共享属性方法/或写在外面失去了封装性</li>
+</ul>
+<a id="more"></a>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name, friends) &#123;</span><br><span class="line">    this.name = name</span><br><span class="line">    this.friends = friends // 👍 可以定义私有 引用类型不会被共享</span><br><span class="line">    this.share = share // ❌ 可以定义公有 但需要放在外部</span><br><span class="line">    this.log = log // ❌ 避免重复声明，为了复用需要放在外面</span><br><span class="line">&#125;</span><br><span class="line">// ❌ 公有属性和方法定义在外面失去了封装性</span><br><span class="line">let share = [1, 2, 3]</span><br><span class="line">function log() &#123;</span><br><span class="line">    return this.name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Child(name, friends, gender) &#123;</span><br><span class="line">    Parent.call(this, name, friends) // 👍 可以在子类传递参数给父类</span><br><span class="line">    this.gender = gender</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//console.log(new Child(&apos;jack&apos;, &apos;tom&apos;, 18))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/js%E7%BB%A7%E6%89%BF001.png" alt=""></p>
+<h1 id="2-原型链继承"><a href="#2-原型链继承" class="headerlink" title="2. 原型链继承"></a>2. 原型链继承</h1><p>原型链模式需要手动重新绑定 <code>constructor</code> 而且不能定义私有变量</p>
+<ul>
+<li>👍 可以定义公有属性方法</li>
+<li>❌ 无论是定义还是继承都需要手动修改 <code>constructor</code></li>
+<li>❌ 封装性一般</li>
+<li>❌ 不能定义私有属性方法</li>
+<li>❌ 没办法向父类传递参数</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function Parent() &#123;&#125;</span><br><span class="line">Parent.prototype = &#123;</span><br><span class="line">    constructor: Parent, // ❌ 需要手动绑定 constructor</span><br><span class="line">    name: &apos;oli&apos;, // ❌ 不能定义私有属性，全部都是公有</span><br><span class="line">    friends: [&apos;alice&apos;, &apos;troy&apos;], // 👍 可以定义公有属性 所有实例都引用这个</span><br><span class="line">    log: function() &#123; // 👍 方法被共享了</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 也可以写成多个 Parent.prototype.func1 = function()&#123;&#125; 封装性更差 但不用修改 constructor</span><br><span class="line">// ❌ 封装性一般</span><br><span class="line"></span><br><span class="line">function Child() &#123;&#125; // ❌ 没办法向父类传递参数</span><br><span class="line">Child.prototype = new Parent() // 使用 new 操作符创建并重写 prototype</span><br><span class="line">Child.prototype.constructor = Child // ❌ 每次继承都需要手动修改 constructor 谁叫你是覆盖 prototype 属性呢</span><br></pre></td></tr></table></figure>
+
+<h1 id="3-组合继承"><a href="#3-组合继承" class="headerlink" title="3. 组合继承"></a>3. 组合继承</h1><p>上面两者结合即成为组合继承模式，这个是结合了两者的优势，在 ES6 的 class 出现之前的常用方法，看看例子：</p>
+<ul>
+<li>👍 公有的写在原型</li>
+<li>👍 私有的写在构造函数</li>
+<li>👍 可以向父类传递参数</li>
+<li>❌ 需要手动绑定 constructor</li>
+<li>❌ 封装性一般</li>
+<li>⚡ 重复调用父类性能损耗</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name, friends) &#123;</span><br><span class="line">    // 私有的写这里</span><br><span class="line">    this.name = name // 👍 可以定义私有属性</span><br><span class="line">    this.friends = friends // 👍 可以定义公有引用属性不会被共享</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype = &#123;</span><br><span class="line">    // 公有的写这里</span><br><span class="line">    constructor: Parent, // ❌ 需要手动绑定 constructor</span><br><span class="line">    share: [1, 2, 3], // 👍 这里定义的公有属性会被共享</span><br><span class="line">    log: function() &#123; // 👍 方法被共享了</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// ❌ 封装性一般</span><br><span class="line"></span><br><span class="line">function Child(name, friends, gender) &#123;</span><br><span class="line">    Parent.call(this, name, friends) // 👍 可以向父类传递参数 ⚡ 这里又调用了一次 Parent</span><br><span class="line">    this.gender = gender</span><br><span class="line">&#125;</span><br><span class="line">Child.prototype = new Parent() // 使用 new 操作符创建并重写 prototype ⚡ 这里调用了一次 Parent</span><br><span class="line">// 有方法避免多次调用直接去掉 new 操作符 转而写成 Child.prototype = Parent.prototype 这样并不好，虽然避免出现重复调用但导致修改子类 constructor 的时候父类也被修改了</span><br><span class="line">Child.prototype.constructor = Child // ❌ 每次继承都需要手动修改 constructor 谁叫你是覆盖 prototype 属性呢</span><br><span class="line">// 如果使用 Child.prototype = Parent.prototype 那么 constructor 子类父类是同一个</span><br></pre></td></tr></table></figure>
+
+
+<h1 id="4-原型式继承"><a href="#4-原型式继承" class="headerlink" title="4. 原型式继承"></a>4. 原型式继承</h1><p>原型式继承直接使用 ES5 <code>Object.create</code> 方法，该方法的原理是创建一个构造函数，构造函数的原型指向对象，然后调用 new 操作符创建实例，并返回这个实例，本质是一个浅拷贝</p>
+<ul>
+<li>👍 父类方法可以复用</li>
+<li>❌ 父类引用属性全部被共享</li>
+<li>❌ 子类不可传递参数给父类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">let parent = &#123;</span><br><span class="line">    name: &apos;parent&apos;,</span><br><span class="line">    share: [1, 2, 3], // ❌ 父类的引用属性全部被子类所共享</span><br><span class="line">    log: function() &#123; // 👍 父类方法可以复用</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let child = Object.create(parent) // ❌ 子类不能向父类传递参数</span><br></pre></td></tr></table></figure>
+
+<h1 id="5-寄生式继承"><a href="#5-寄生式继承" class="headerlink" title="5. 寄生式继承"></a>5. 寄生式继承</h1><p>原型式继承的基础上为子类增加属性和方法</p>
+<ul>
+<li>👍 父类方法可以复用</li>
+<li>👍 增加了别的属性和方法</li>
+<li>❌ 父类引用属性全部被共享</li>
+<li>❌ 子类不可传递参数给父类</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">let parent = &#123;</span><br><span class="line">    name: &apos;parent&apos;,</span><br><span class="line">    share: [1, 2, 3],</span><br><span class="line">    log: function() &#123;</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function create(obj) &#123;</span><br><span class="line">    let clone = Object.create(obj) // 本质上还是 Object.create</span><br><span class="line">    clone.print = function() &#123; // 增加一些属性或方法</span><br><span class="line">        console.log(this.name)</span><br><span class="line">    &#125;</span><br><span class="line">    return clone</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let child = create(parent)</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-寄生组合式继承"><a href="#6-寄生组合式继承" class="headerlink" title="6. 寄生组合式继承"></a>6. 寄生组合式继承</h1><p>杂糅了原型链式、构造函数式、组合式、原型式、寄生式而形成的一种方式：</p>
+<p>组合继承的方法会调用两次 <code>Parent</code>，一次是在 <code>Child.prototype = new Parent()</code> ，一次是在 <code>Parent.call()</code>。这个是组合继承的唯一缺点，寄生组合式解决了这个问题：</p>
+<ul>
+<li>👍 公有的写在原型</li>
+<li>👍 私有的写在构造函数</li>
+<li>👍 可以向父类传递参数</li>
+<li>👍 不会重复调用父类</li>
+<li>❌ 需要手动绑定 constructor （如果重写 prototype）</li>
+<li>❌ 需要调用额外的方法封装性一般</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name, friends) &#123;</span><br><span class="line">    this.name = name</span><br><span class="line">    this.friends = friends</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype = &#123;</span><br><span class="line">    constructor: Parent, // ❌ 需要手动绑定 constructor</span><br><span class="line">    share: [1, 2, 3],</span><br><span class="line">    log: function() &#123;</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Child(name, friends, gender) &#123;</span><br><span class="line">    Parent.call(this, name, friends) // ⚡ 这里只需要调用一次 Parent</span><br><span class="line">    this.gender = gender</span><br><span class="line">&#125;</span><br><span class="line">// 上半部分和组合继承一样</span><br><span class="line"></span><br><span class="line">let F = function() &#123;&#125; // 创建一个中介函数</span><br><span class="line">F.prototype = Parent.prototype // 这个中介的原型指向 Parent 的原型</span><br><span class="line">Child.prototype = new F() // 注意这里没有使用 new 操作符调用 Parent</span><br><span class="line">Child.prototype.constructor = Child</span><br></pre></td></tr></table></figure>
+
+<p>对上述方法进行一个封装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">function Parent(name, friends) &#123;</span><br><span class="line">    this.name = name // 👍 可以定义私有属性</span><br><span class="line">    this.friends = friends // 👍 可以定义公有引用属性不会被共享</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype = &#123;</span><br><span class="line">    constructor: Parent, // ❌ 需要手动绑定 constructor</span><br><span class="line">    share: [1, 2, 3], // 👍 这里定义的公有属性会被共享</span><br><span class="line">    log: function() &#123; // 👍 方法被共享了</span><br><span class="line">        return this.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function Child(name, friends, gender) &#123;</span><br><span class="line">    Parent.call(this, name, friends) // 👍 可以向父类传递参数 ⚡ 这里又调用了一次 Parent</span><br><span class="line">    this.gender = gender</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function proto(child, parent) &#123;</span><br><span class="line">    child.prototype = Object.create(parent.prototype)</span><br><span class="line">    child.prototype.constructor = child</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">proto(Child, Parent)</span><br></pre></td></tr></table></figure>
+
+<h1 id="7-class继承"><a href="#7-class继承" class="headerlink" title="7. class继承"></a>7. class继承</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">class Parent &#123;</span><br><span class="line">    constructor(name, friends) &#123; // 该属性在构造函数上，不共享</span><br><span class="line">        this.name = name</span><br><span class="line">        this.friends = friends</span><br><span class="line">    &#125;</span><br><span class="line">    log() &#123; // 该方法在原型上，共享</span><br><span class="line">        return this</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">Parent.prototype.share = [1, 2, 3] // 原型上的属性，共享</span><br><span class="line"></span><br><span class="line">class Child extends Parent &#123;</span><br><span class="line">    constructor(name, friends, gender) &#123;</span><br><span class="line">        super(name, friends)</span><br><span class="line">        this.gender = gender</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/learn/assets/alipay.png">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/JavaScript//" class="article-tag-list-link color1">JavaScript</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/JavaScript/基础//" class="article-tag-list-link color3">基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=https://fangwenzheng88.github.io/2019/10/31/js%E7%BB%A7%E6%89%BF/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          js实现new操作符
+        
+      </div>
+    </a>
+  
+  
+    <a href="/learn/2019/10/31/idea%E7%83%AD%E6%9B%B4%E6%96%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">idea热更新</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left" onclick="showToc(event)">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content" onclick="stopProp(event)">
+                    <div class="toc-article">
+                        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-构造函数继承"><span class="toc-number">1.</span> <span class="toc-text">1. 构造函数继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-原型链继承"><span class="toc-number">2.</span> <span class="toc-text">2. 原型链继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-组合继承"><span class="toc-number">3.</span> <span class="toc-text">3. 组合继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-原型式继承"><span class="toc-number">4.</span> <span class="toc-text">4. 原型式继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5-寄生式继承"><span class="toc-number">5.</span> <span class="toc-text">5. 寄生式继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#6-寄生组合式继承"><span class="toc-number">6.</span> <span class="toc-text">6. 寄生组合式继承</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#7-class继承"><span class="toc-number">7.</span> <span class="toc-text">7. class继承</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+<script>
+    function showToc(event) {
+        var ele = event.currentTarget;
+        var flag = ele.classList.contains('toc-container-avtive');
+        if (flag) {
+            ele.classList.remove('toc-container-avtive');
+        } else {
+            ele.classList.add('toc-container-avtive');
+        }
+    }
+
+    function stopProp(event){
+        event.stopPropagation();
+    }
+</script>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+	<div class="outer">
+		<div id="footer-info">
+			<div class="footer-left">
+				&copy; 2020 新许88
+			</div>
+			<div class="footer-right">
+				<a href="http://hexo.io/" target="_blank">Hexo</a> Theme <a
+					href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+			</div>
+		</div>
+	</div>
+	
+		<!-- 不蒜子统计 -->
+		<span id="busuanzi_container_site_pv">
+			本站总访问量<span id="busuanzi_value_site_pv"></span>次
+		</span>
+		<span class="post-meta-divider">|</span>
+		<span id="busuanzi_container_site_uv" style='display:none'>
+			本站访客数<span id="busuanzi_value_site_uv"></span>人
+		</span>
+		<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+	
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: true,
+		root: "/learn/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+<script>!function(e){var n={};function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:r})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(t.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var o in e)t.d(r,o,function(n){return e[n]}.bind(null,o));return r},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="./",t(t.s=18)}([function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.add(e)}))}else n.className+=" "+t}},function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.remove(e)}))}else{var i=new RegExp("(^|\\b)"+t.split(" ").join("|")+"(\\b|$)","gi");n.className=n.className.replace(i," ")}}},function(e,n){e.exports=function(e,n){var t,r,o=e.length;if("number"==typeof o)for(t=0;t<o;t++)n(e[t],t);else for(t in r=0,e)e.hasOwnProperty(t)&&n(e[t],t,r++);return e}},function(e,n){var t=function(){function e(e,n,t){return n||t?String.fromCharCode(n||t):i[e]||e}function n(e){return u[e]}var r=/&quot;|&lt;|&gt;|&amp;|&nbsp;|&apos;|&#(\d+);|&#(\d+)/g,o=/['<> "&]/g,i={"&quot;":'"',"&lt;":"<","&gt;":">","&amp;":"&","&nbsp;":" "},a=/\u00a0/g,l=/<br\s*\/?>/gi,c=/\r?\n/g,f=/\s/g,u={};for(var s in i)u[i[s]]=s;return i["&apos;"]="'",u["'"]="&#39;",{encode:function(e){return e?(""+e).replace(o,n).replace(c,"<br/>").replace(f,"&nbsp;"):""},decode:function(n){return n?(""+n).replace(l,"\n").replace(r,e).replace(a," "):""},encodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},encodeBase16forJSON:function(e){if(!e)return e;for(var n=[],t=0,r=(e=e.replace(/[\u4E00-\u9FBF]/gi,(function(e){return escape(e).replace("%u","\\u")}))).length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},decodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t+=2)n.push(String.fromCharCode("0x"+e.slice(t,t+2)));return n.join("")},encodeObject:function(e){if(e instanceof Array)for(var n=0,r=e.length;r>n;n++)e[n]=t.encodeObject(e[n]);else if("object"==typeof e)for(var o in e)e[o]=t.encodeObject(e[o]);else if("string"==typeof e)return t.encode(e);return e},loadScript:function(e){var n=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(n),n.setAttribute("src",e)},addLoadEvent:function(e){var n=window.onload;"function"!=typeof window.onload?window.onload=e:window.onload=function(){n(),e()}}}}();e.exports=t},function(e,n,t){"use strict";var r,o={versions:(r=window.navigator.userAgent,{trident:r.indexOf("Trident")>-1,presto:r.indexOf("Presto")>-1,webKit:r.indexOf("AppleWebKit")>-1,gecko:r.indexOf("Gecko")>-1&&-1==r.indexOf("KHTML"),mobile:!!r.match(/AppleWebKit.*Mobile.*/),ios:!!r.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),android:r.indexOf("Android")>-1||r.indexOf("Linux")>-1,iPhone:r.indexOf("iPhone")>-1||r.indexOf("Mac")>-1,iPad:r.indexOf("iPad")>-1,webApp:-1==r.indexOf("Safari"),weixin:-1==r.indexOf("MicroMessenger")})};n.a=o},,,,,,function(e,n){e.exports=function(e,n){if("string"==typeof n)return e.insertAdjacentHTML("afterend",n);var t=e.nextSibling;return t?e.parentNode.insertBefore(n,t):e.parentNode.appendChild(n)}},,,,,,,,function(e,n,t){e.exports=t(21)},,,function(e,n,t){"use strict";t.r(n);var r=t(0),o=t.n(r),i=(t(1),t(10)),a=t.n(i),l=t(4);var c={init:function(){var e=document.querySelector("#page-nav");if(e&&!document.querySelector("#page-nav .extend.prev")&&(e.innerHTML='<a class="extend prev disabled" rel="prev">&laquo; Prev</a>'+e.innerHTML),e&&!document.querySelector("#page-nav .extend.next")&&(e.innerHTML=e.innerHTML+'<a class="extend next disabled" rel="next">Next &raquo;</a>'),yiliaConfig&&yiliaConfig.open_in_new){document.querySelectorAll(".article-entry a:not(.article-more-a)").forEach(e=>{let n=e.getAttribute("target");n&&""!==n||e.setAttribute("target","_blank")})}if(yiliaConfig&&yiliaConfig.toc_hide_index){document.querySelectorAll(".toc-number").forEach(e=>{e.style.display="none"})}var n=document.querySelector("#js-aboutme");n&&0!==n.length&&(n.innerHTML=n.innerText)}},f=t(3);function u(e,n){let t=/\/|index.html/g;return e.replace(t,"")===n.replace(t,"")}function s(e,n,t,r,o){let i=function(e){for(var n=e.offsetLeft,t=e.offsetParent;null!==t;)n+=t.offsetLeft,t=t.offsetParent;return n}(e),l=function(e){for(var n=e.offsetTop,t=e.offsetParent;null!==t;)n+=t.offsetTop,t=t.offsetParent;return n}(e)-n;if(l-t<=o){let n=e.$newDom;n||(n=e.cloneNode(!0),a()(e,n),e.$newDom=n,n.style.position="fixed",n.style.top=(t||l)+"px",n.style.left=i+"px",n.style.zIndex=r||2,n.style.width="100%",n.style.color="#fff"),n.style.visibility="visible",e.style.visibility="hidden"}else{e.style.visibility="visible";let n=e.$newDom;n&&(n.style.visibility="hidden")}}function d(){let e=document.querySelector(".js-overlay"),n=document.querySelector(".js-header-menu");s(e,document.body.scrollTop,-63,2,0),s(n,document.body.scrollTop,1,3,0)}l.a.versions.mobile&&window.screen.width<800&&(function(){let e=document.querySelectorAll(".js-header-menu li a"),n=window.location.pathname;for(var t=0,r=e.length;t<r;t++){let r=e[t];u(n,r.getAttribute("href"))&&o()(r,"active")}}(),document.querySelector("#container").addEventListener("scroll",e=>{d()}),window.addEventListener("scroll",e=>{d()}),d()),Object(f.addLoadEvent)((function(){c.init()}));n.default={}}]);</script><script src="/learn/./main.eddd2a.js"></script><script>!function(){var e,t;e="/learn/slider.fbb1ed.js",t=document.createElement("script"),document.getElementsByTagName("body")[0].appendChild(t),t.setAttribute("src",e)}()</script>
+
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'friends')"><a href="javascript:void(0)" q-class="active:friends">友链</a></li>
+      
+        
+      
+      <li style="width: 33.333333333333336%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">JavaScript</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">H5</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">JavaScript异步编程</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">工具</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Babel</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">webpack</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
+            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            3、在根目录_config.yml里添加配置：
+<pre style="font-size: 12px;" q-show="jsonFail">
+  jsonContent:
+    meta: false
+    pages: false
+    posts:
+      title: true
+      date: true
+      path: true
+      text: false
+      raw: false
+      content: false
+      slug: false
+      updated: false
+      comments: false
+      link: false
+      permalink: false
+      excerpt: false
+      categories: false
+      tags: true
+</pre>
+          </p>
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends" q-show="friends">
+  		
+        <ul class="search-ul">
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接1</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接2</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接3</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接4</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接5</a>
+            </li>
+          
+            <li class="search-li">
+              <a href="http://localhost:4000/" target="_blank" class="search-title"><i class="icon-quo-left icon"></i>友情链接6</a>
+            </li>
+          
+        </ul>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">很惭愧&lt;br&gt;&lt;br&gt;只做了一点微小的工作&lt;br&gt;谢谢大家</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
