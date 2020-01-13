@@ -3,10 +3,8 @@ title: MongoDB Windows安装启动
 toc: true
 date: 2019-12-19 11:53:14
 tags:
-    - nodejs
     - 数据库
 categories:
-    - [nodejs, 学习]
     - 数据库
 ---
 
