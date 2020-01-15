@@ -116,7 +116,7 @@ function init() {
 
 	  		let matchTags = false
 	  		item.tags.forEach((tag) => {
-	  			if (tag.name.toLowerCase().indexOf(val) > -1) {
+	  			if (tag.name.toLowerCase() === val.toLowerCase()) {
 	      			matchTags = true
 	      		}
 	  		})
