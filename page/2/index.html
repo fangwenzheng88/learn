@@ -483,6 +483,244 @@
 
 
   
+    <article id="post-快速排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/learn/2019/10/31/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">快速排序</a>
+    </h1>
+  
+
+        
+        
+<a href="/learn/2019/10/31/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/" class="archive-article-date">
+	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
+			class="icon-calendar icon"></i>2019-10-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-快速排序-Quicksort"><a href="#1-快速排序-Quicksort" class="headerlink" title="1. 快速排序(Quicksort)"></a>1. 快速排序(Quicksort)</h1><ol>
+<li>先从数列中取出一个数作为key值；</li>
+<li>将比这个数小的数全部放在它的左边，大于或等于它的数全部放在它的右边；</li>
+<li>对左右两个小数列重复第二步，直至各区间只有1个数。</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.util.Arrays;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QuickSort</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 快速排序 参数说明： a -- 待排序的数组 l -- 数组的左边界(例如，从起始位置开始排序，则l=0) r --</span></span><br><span class="line"><span class="comment">	 * 数组的右边界(例如，排序截至到数组末尾，则r=a.length-1)</span></span><br><span class="line"><span class="comment">	 **/</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> l, <span class="keyword">int</span> r)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span> (l &gt;= r) &#123;</span><br><span class="line">			<span class="keyword">return</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="keyword">int</span> i = l;</span><br><span class="line">		<span class="keyword">int</span> j = r;</span><br><span class="line">		<span class="keyword">int</span> key = a[l];<span class="comment">// 选择第一个数为key</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (i &lt; j &amp;&amp; a[j] &gt;= key) &#123;<span class="comment">// 从右向左找第一个小于key的值</span></span><br><span class="line">				j--;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">				a[i] = a[j];</span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line">			<span class="keyword">while</span> (i &lt; j &amp;&amp; a[i] &lt; key) &#123;<span class="comment">// 从左向右找第一个大于key的值</span></span><br><span class="line">				i++;</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">				a[j] = a[i];</span><br><span class="line">				j--;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">// i == j</span></span><br><span class="line">		a[i] = key;</span><br><span class="line">		quickSort(a, l, i - <span class="number">1</span>);<span class="comment">// 递归调用</span></span><br><span class="line">		quickSort(a, i + <span class="number">1</span>, r);<span class="comment">// 递归调用</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span>[] arr = &#123; <span class="number">49</span>, <span class="number">38</span>, <span class="number">65</span>, <span class="number">97</span>, <span class="number">23</span>, <span class="number">22</span>, <span class="number">76</span>, <span class="number">1</span>, <span class="number">5</span>, <span class="number">8</span>, <span class="number">2</span>, <span class="number">0</span>, -<span class="number">1</span>, <span class="number">22</span> &#125;;</span><br><span class="line">		quickSort(arr, <span class="number">0</span>, arr.length - <span class="number">1</span>);</span><br><span class="line">		System.out.println(<span class="string">"排序后:"</span> + Arrays.toString(arr));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>key值的选取可以有多种形式，例如中间数或者随机数，分别会对算法的复杂度产生不同的影响。</p>
+</blockquote>
+<h2 id="1-1-例子"><a href="#1-1-例子" class="headerlink" title="1.1. 例子:"></a>1.1. 例子:</h2><p><a href="https://www.jianshu.com/p/c491dceb0bfd" target="_blank" rel="noopener">参考文章</a></p>
+<p>下面以数列a={30,40,60,10,20,50}为例，演示它的快速排序过程(如下图)。</p>
+<p><img src="https://raw.githubusercontent.com/fangwenzheng88/git_picture/master/img/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F001.png" alt=""></p>
+<p>上图只是给出了第1趟快速排序的流程。在第1趟中，设置x=a[i]，即x=30。</p>
+<ol>
+<li>从”右 –&gt; 左”查找小于x的数：找到满足条件的数a[j]=20，此时j=4；然后将a[j]赋值a[i]，此时i=0；接着从左往右遍历。</li>
+<li>从”左 –&gt; 右”查找大于x的数：找到满足条件的数a[i]=40，此时i=1；然后将a[i]赋值a[j]，此时j=4；接着从右往左遍历。</li>
+<li>从”右 –&gt; 左”查找小于x的数：找到满足条件的数a[j]=10，此时j=3；然后将a[j]赋值a[i]，此时i=1；接着从左往右遍历。</li>
+<li>从”左 –&gt; 右”查找大于x的数：找到满足条件的数a[i]=60，此时i=2；然后将a[i]赋值a[j]，此时j=3；接着从右往左遍历。</li>
+<li>从”右 –&gt; 左”查找小于x的数：没有找到满足条件的数。当i&gt;=j时，停止查找；然后将x赋值给a[i]。此趟遍历结束！</li>
+</ol>
+<p>按照同样的方法，对子数列进行递归遍历。最后得到有序数组！</p>
+<h2 id="1-2-参考文章"><a href="#1-2-参考文章" class="headerlink" title="1.2. 参考文章"></a>1.2. 参考文章</h2><ul>
+<li><a href="https://www.runoob.com/w3cnote/quick-sort.html" target="_blank" rel="noopener">https://www.runoob.com/w3cnote/quick-sort.html</a></li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/Java//" class="article-tag-list-link color5">Java</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/Java/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/learn/2019/10/31/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+<script>
+    function showToc(event) {
+        var ele = event.currentTarget;
+        var flag = ele.classList.contains('toc-container-avtive');
+        if (flag) {
+            ele.classList.remove('toc-container-avtive');
+        } else {
+            ele.classList.add('toc-container-avtive');
+        }
+    }
+
+    function stopProp(event){
+        event.stopPropagation();
+    }
+</script>
+
+
+
+
+  
+    <article id="post-H5适配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/">H5适配</a>
+    </h1>
+  
+
+        
+        
+<a href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/" class="archive-article-date">
+	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
+			class="icon-calendar icon"></i>2019-10-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <a id="more"></a>
+
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://github.com/amfe/article/issues/17" target="_blank" rel="noopener">https://github.com/amfe/article/issues/17</a></p>
+<p><a href="https://blog.csdn.net/lvyang251314/article/details/82798858" target="_blank" rel="noopener">https://blog.csdn.net/lvyang251314/article/details/82798858</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">H5</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/Html//" class="article-tag-list-link color5">Html</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="/learn/categories/Html/基础//" class="article-tag-list-link color3">基础</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+<script>
+    function showToc(event) {
+        var ele = event.currentTarget;
+        var flag = ele.classList.contains('toc-container-avtive');
+        if (flag) {
+            ele.classList.remove('toc-container-avtive');
+        } else {
+            ele.classList.add('toc-container-avtive');
+        }
+    }
+
+    function stopProp(event){
+        event.stopPropagation();
+    }
+</script>
+
+
+
+
+  
     <article id="post-js类型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -598,20 +836,20 @@
 
 
   
-    <article id="post-js实现new操作符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-冒泡排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/">js实现new操作符</a>
+      <a class="article-title" href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">冒泡排序</a>
     </h1>
   
 
         
         
-<a href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/" class="archive-article-date">
+<a href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" class="archive-article-date">
 	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
 			class="icon-calendar icon"></i>2019-10-31</time>
 </a>
@@ -620,13 +858,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-new"><a href="#1-new" class="headerlink" title="1. new"></a>1. <code>new</code></h1><ol>
-<li>创建了一个全新的对象。</li>
-<li>这个对象会被执行<code>[[Prototype]]</code>（也就是<code>__proto__</code>）链接。</li>
-<li>生成的新对象会绑定到函数调用的this。</li>
-<li>通过<code>new</code>创建的每个对象将最终被<code>[[Prototype]]</code>链接到这个函数的<code>prototype</code>对象上。</li>
-<li>如果函数没有返回对象类型Object(包含<code>Functoin</code>, <code>Array</code>, <code>Date</code>, <code>RegExg</code>,<code>Error</code>)，那么new表达式中的函数调用会自动返回这个新的对象。</li>
-</ol>
+        <h1 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1. 冒泡排序"></a>1. 冒泡排序</h1><p>两个数比较大小，较大的数下沉，较小的数冒起来。<br>这个算法的名字由来是因为越大的元素会经由交换慢慢“浮”到数列的顶端（升序或降序排列），就如同碳酸饮料中二氧化碳的气泡最终会上浮到顶端一样，故名“冒泡排序”。<br>  1. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>  2. 对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>  3. 针对所有的元素重复以上的步骤，除了最后一个。<br>  4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
         
       
 
@@ -640,7 +872,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
         		</li>
       		
 		</ul>
@@ -652,11 +884,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/learn/categories/JavaScript//" class="article-tag-list-link color1">JavaScript</a>
+        			<a href="/learn/categories/Java//" class="article-tag-list-link color5">Java</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/learn/categories/JavaScript/基础//" class="article-tag-list-link color3">基础</a>
+        			<a href="/learn/categories/Java/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -665,7 +897,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/">展开全文 >></a>
+          <a class="article-more-a" href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">展开全文 >></a>
         </p>
       
 
@@ -821,20 +1053,20 @@
 
 
   
-    <article id="post-idea热更新" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-js实现new操作符" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/learn/2019/10/31/idea%E7%83%AD%E6%9B%B4%E6%96%B0/">idea热更新</a>
+      <a class="article-title" href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/">js实现new操作符</a>
     </h1>
   
 
         
         
-<a href="/learn/2019/10/31/idea%E7%83%AD%E6%9B%B4%E6%96%B0/" class="archive-article-date">
+<a href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/" class="archive-article-date">
 	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
 			class="icon-calendar icon"></i>2019-10-31</time>
 </a>
@@ -843,7 +1075,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="1-springboot热更新"><a href="#1-springboot热更新" class="headerlink" title="1. springboot热更新"></a>1. springboot热更新</h1><h2 id="1-1-IDEA提供了对spring-boot-devtools的相应支持的"><a href="#1-1-IDEA提供了对spring-boot-devtools的相应支持的" class="headerlink" title="1.1. IDEA提供了对spring-boot-devtools的相应支持的"></a>1.1. <code>IDEA</code>提供了对<code>spring-boot-devtools</code>的相应支持的</h2><h2 id="1-2-修改pom-xml"><a href="#1-2-修改pom-xml" class="headerlink" title="1.2. 修改pom.xml"></a>1.2. 修改<code>pom.xml</code></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt;</span><br><span class="line">    &lt;scope&gt;runtime&lt;/scope&gt;</span><br><span class="line">    &lt;optional&gt;true&lt;/optional&gt;</span><br><span class="line">&lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+        <h1 id="1-new"><a href="#1-new" class="headerlink" title="1. new"></a>1. <code>new</code></h1><ol>
+<li>创建了一个全新的对象。</li>
+<li>这个对象会被执行<code>[[Prototype]]</code>（也就是<code>__proto__</code>）链接。</li>
+<li>生成的新对象会绑定到函数调用的this。</li>
+<li>通过<code>new</code>创建的每个对象将最终被<code>[[Prototype]]</code>链接到这个函数的<code>prototype</code>对象上。</li>
+<li>如果函数没有返回对象类型Object(包含<code>Functoin</code>, <code>Array</code>, <code>Date</code>, <code>RegExg</code>,<code>Error</code>)，那么new表达式中的函数调用会自动返回这个新的对象。</li>
+</ol>
         
       
 
@@ -857,7 +1095,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
         		</li>
       		
 		</ul>
@@ -869,116 +1107,11 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/learn/categories/工具//" class="article-tag-list-link color3">工具</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/learn/2019/10/31/idea%E7%83%AD%E6%9B%B4%E6%96%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-<script>
-    function showToc(event) {
-        var ele = event.currentTarget;
-        var flag = ele.classList.contains('toc-container-avtive');
-        if (flag) {
-            ele.classList.remove('toc-container-avtive');
-        } else {
-            ele.classList.add('toc-container-avtive');
-        }
-    }
-
-    function stopProp(event){
-        event.stopPropagation();
-    }
-</script>
-
-
-
-
-  
-    <article id="post-H5适配" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/">H5适配</a>
-    </h1>
-  
-
-        
-        
-<a href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/" class="archive-article-date">
-	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
-			class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <a id="more"></a>
-
-<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://github.com/amfe/article/issues/17" target="_blank" rel="noopener">https://github.com/amfe/article/issues/17</a></p>
-<p><a href="https://blog.csdn.net/lvyang251314/article/details/82798858" target="_blank" rel="noopener">https://blog.csdn.net/lvyang251314/article/details/82798858</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">H5</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/learn/categories/Html//" class="article-tag-list-link color5">Html</a>
+        			<a href="/learn/categories/JavaScript//" class="article-tag-list-link color1">JavaScript</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="/learn/categories/Html/基础//" class="article-tag-list-link color3">基础</a>
+        			<a href="/learn/categories/JavaScript/基础//" class="article-tag-list-link color3">基础</a>
         		</li>
       		
 		</ul>
@@ -987,113 +1120,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/learn/2019/10/31/H5%E9%80%82%E9%85%8D/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-<script>
-    function showToc(event) {
-        var ele = event.currentTarget;
-        var flag = ele.classList.contains('toc-container-avtive');
-        if (flag) {
-            ele.classList.remove('toc-container-avtive');
-        } else {
-            ele.classList.add('toc-container-avtive');
-        }
-    }
-
-    function stopProp(event){
-        event.stopPropagation();
-    }
-</script>
-
-
-
-
-  
-    <article id="post-冒泡排序" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">冒泡排序</a>
-    </h1>
-  
-
-        
-        
-<a href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/" class="archive-article-date">
-	<time datetime="2019-10-31T08:13:32.000Z" itemprop="datePublished"><i
-			class="icon-calendar icon"></i>2019-10-31</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="1-冒泡排序"><a href="#1-冒泡排序" class="headerlink" title="1. 冒泡排序"></a>1. 冒泡排序</h1><p>两个数比较大小，较大的数下沉，较小的数冒起来。<br>这个算法的名字由来是因为越大的元素会经由交换慢慢“浮”到数列的顶端（升序或降序排列），就如同碳酸饮料中二氧化碳的气泡最终会上浮到顶端一样，故名“冒泡排序”。<br>  1. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。<br>  2. 对每一对相邻元素做同样的工作，从开始第一对到结尾的最后一对。在这一点，最后的元素应该会是最大的数。<br>  3. 针对所有的元素重复以上的步骤，除了最后一个。<br>  4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。</p>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/learn/categories/Java//" class="article-tag-list-link color5">Java</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="/learn/categories/Java/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/learn/2019/10/31/%E5%86%92%E6%B3%A1%E6%8E%92%E5%BA%8F/">展开全文 >></a>
+          <a class="article-more-a" href="/learn/2019/10/31/js%E5%AE%9E%E7%8E%B0new%E6%93%8D%E4%BD%9C%E7%AC%A6/">展开全文 >></a>
         </p>
       
 
@@ -1291,7 +1318,7 @@
 	}
 </script>
 
-<script>!function(e){var n={};function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:r})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(t.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var o in e)t.d(r,o,function(n){return e[n]}.bind(null,o));return r},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="./",t(t.s=18)}([function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.add(e)}))}else n.className+=" "+t}},function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.remove(e)}))}else{var i=new RegExp("(^|\\b)"+t.split(" ").join("|")+"(\\b|$)","gi");n.className=n.className.replace(i," ")}}},function(e,n){e.exports=function(e,n){var t,r,o=e.length;if("number"==typeof o)for(t=0;t<o;t++)n(e[t],t);else for(t in r=0,e)e.hasOwnProperty(t)&&n(e[t],t,r++);return e}},function(e,n){var t=function(){function e(e,n,t){return n||t?String.fromCharCode(n||t):i[e]||e}function n(e){return u[e]}var r=/&quot;|&lt;|&gt;|&amp;|&nbsp;|&apos;|&#(\d+);|&#(\d+)/g,o=/['<> "&]/g,i={"&quot;":'"',"&lt;":"<","&gt;":">","&amp;":"&","&nbsp;":" "},a=/\u00a0/g,l=/<br\s*\/?>/gi,c=/\r?\n/g,f=/\s/g,u={};for(var s in i)u[i[s]]=s;return i["&apos;"]="'",u["'"]="&#39;",{encode:function(e){return e?(""+e).replace(o,n).replace(c,"<br/>").replace(f,"&nbsp;"):""},decode:function(n){return n?(""+n).replace(l,"\n").replace(r,e).replace(a," "):""},encodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},encodeBase16forJSON:function(e){if(!e)return e;for(var n=[],t=0,r=(e=e.replace(/[\u4E00-\u9FBF]/gi,(function(e){return escape(e).replace("%u","\\u")}))).length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},decodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t+=2)n.push(String.fromCharCode("0x"+e.slice(t,t+2)));return n.join("")},encodeObject:function(e){if(e instanceof Array)for(var n=0,r=e.length;r>n;n++)e[n]=t.encodeObject(e[n]);else if("object"==typeof e)for(var o in e)e[o]=t.encodeObject(e[o]);else if("string"==typeof e)return t.encode(e);return e},loadScript:function(e){var n=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(n),n.setAttribute("src",e)},addLoadEvent:function(e){var n=window.onload;"function"!=typeof window.onload?window.onload=e:window.onload=function(){n(),e()}}}}();e.exports=t},function(e,n,t){"use strict";var r,o={versions:(r=window.navigator.userAgent,{trident:r.indexOf("Trident")>-1,presto:r.indexOf("Presto")>-1,webKit:r.indexOf("AppleWebKit")>-1,gecko:r.indexOf("Gecko")>-1&&-1==r.indexOf("KHTML"),mobile:!!r.match(/AppleWebKit.*Mobile.*/),ios:!!r.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),android:r.indexOf("Android")>-1||r.indexOf("Linux")>-1,iPhone:r.indexOf("iPhone")>-1||r.indexOf("Mac")>-1,iPad:r.indexOf("iPad")>-1,webApp:-1==r.indexOf("Safari"),weixin:-1==r.indexOf("MicroMessenger")})};n.a=o},,,,,,function(e,n){e.exports=function(e,n){if("string"==typeof n)return e.insertAdjacentHTML("afterend",n);var t=e.nextSibling;return t?e.parentNode.insertBefore(n,t):e.parentNode.appendChild(n)}},,,,,,,,function(e,n,t){e.exports=t(21)},,,function(e,n,t){"use strict";t.r(n);var r=t(0),o=t.n(r),i=(t(1),t(10)),a=t.n(i),l=t(4);var c={init:function(){var e=document.querySelector("#page-nav");if(e&&!document.querySelector("#page-nav .extend.prev")&&(e.innerHTML='<a class="extend prev disabled" rel="prev">&laquo; Prev</a>'+e.innerHTML),e&&!document.querySelector("#page-nav .extend.next")&&(e.innerHTML=e.innerHTML+'<a class="extend next disabled" rel="next">Next &raquo;</a>'),yiliaConfig&&yiliaConfig.open_in_new){document.querySelectorAll(".article-entry a:not(.article-more-a)").forEach(e=>{let n=e.getAttribute("target");n&&""!==n||e.setAttribute("target","_blank")})}if(yiliaConfig&&yiliaConfig.toc_hide_index){document.querySelectorAll(".toc-number").forEach(e=>{e.style.display="none"})}var n=document.querySelector("#js-aboutme");n&&0!==n.length&&(n.innerHTML=n.innerText)}},f=t(3);function u(e,n){let t=/\/|index.html/g;return e.replace(t,"")===n.replace(t,"")}function s(e,n,t,r,o){let i=function(e){for(var n=e.offsetLeft,t=e.offsetParent;null!==t;)n+=t.offsetLeft,t=t.offsetParent;return n}(e),l=function(e){for(var n=e.offsetTop,t=e.offsetParent;null!==t;)n+=t.offsetTop,t=t.offsetParent;return n}(e)-n;if(l-t<=o){let n=e.$newDom;n||(n=e.cloneNode(!0),a()(e,n),e.$newDom=n,n.style.position="fixed",n.style.top=(t||l)+"px",n.style.left=i+"px",n.style.zIndex=r||2,n.style.width="100%",n.style.color="#fff"),n.style.visibility="visible",e.style.visibility="hidden"}else{e.style.visibility="visible";let n=e.$newDom;n&&(n.style.visibility="hidden")}}function d(){let e=document.querySelector(".js-overlay"),n=document.querySelector(".js-header-menu");s(e,document.body.scrollTop,-63,2,0),s(n,document.body.scrollTop,1,3,0)}l.a.versions.mobile&&window.screen.width<800&&(function(){let e=document.querySelectorAll(".js-header-menu li a"),n=window.location.pathname;for(var t=0,r=e.length;t<r;t++){let r=e[t];u(n,r.getAttribute("href"))&&o()(r,"active")}}(),document.querySelector("#container").addEventListener("scroll",e=>{d()}),window.addEventListener("scroll",e=>{d()}),d()),Object(f.addLoadEvent)((function(){c.init()}));n.default={}}]);</script><script src="/learn/./main.eddd2a.js"></script><script>!function(){var e,t;e="/learn/slider.fbb1ed.js",t=document.createElement("script"),document.getElementsByTagName("body")[0].appendChild(t),t.setAttribute("src",e)}()</script>
+<script>!function(e){var n={};function t(r){if(n[r])return n[r].exports;var o=n[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,t),o.l=!0,o.exports}t.m=e,t.c=n,t.d=function(e,n,r){t.o(e,n)||Object.defineProperty(e,n,{enumerable:!0,get:r})},t.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},t.t=function(e,n){if(1&n&&(e=t(e)),8&n)return e;if(4&n&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(t.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&n&&"string"!=typeof e)for(var o in e)t.d(r,o,function(n){return e[n]}.bind(null,o));return r},t.n=function(e){var n=e&&e.__esModule?function(){return e.default}:function(){return e};return t.d(n,"a",n),n},t.o=function(e,n){return Object.prototype.hasOwnProperty.call(e,n)},t.p="./",t(t.s=18)}([function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.add(e)}))}else n.className+=" "+t}},function(e,n,t){var r=t(2);e.exports=function e(n,t){if(t)if(Array.isArray(t))r(t,(function(t){e(n,t)}));else if(n.classList){var o=t.split(" ").filter(Boolean);r(o,(function(e){n.classList.remove(e)}))}else{var i=new RegExp("(^|\\b)"+t.split(" ").join("|")+"(\\b|$)","gi");n.className=n.className.replace(i," ")}}},function(e,n){e.exports=function(e,n){var t,r,o=e.length;if("number"==typeof o)for(t=0;t<o;t++)n(e[t],t);else for(t in r=0,e)e.hasOwnProperty(t)&&n(e[t],t,r++);return e}},function(e,n){var t=function(){function e(e,n,t){return n||t?String.fromCharCode(n||t):i[e]||e}function n(e){return u[e]}var r=/&quot;|&lt;|&gt;|&amp;|&nbsp;|&apos;|&#(\d+);|&#(\d+)/g,o=/['<> "&]/g,i={"&quot;":'"',"&lt;":"<","&gt;":">","&amp;":"&","&nbsp;":" "},a=/\u00a0/g,l=/<br\s*\/?>/gi,c=/\r?\n/g,f=/\s/g,u={};for(var s in i)u[i[s]]=s;return i["&apos;"]="'",u["'"]="&#39;",{encode:function(e){return e?(""+e).replace(o,n).replace(c,"<br/>").replace(f,"&nbsp;"):""},decode:function(n){return n?(""+n).replace(l,"\n").replace(r,e).replace(a," "):""},encodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},encodeBase16forJSON:function(e){if(!e)return e;for(var n=[],t=0,r=(e=e.replace(/[\u4E00-\u9FBF]/gi,(function(e){return escape(e).replace("%u","\\u")}))).length;r>t;t++)n.push(e.charCodeAt(t).toString(16).toUpperCase());return n.join("")},decodeBase16:function(e){if(!e)return e;for(var n=[],t=0,r=(e+="").length;r>t;t+=2)n.push(String.fromCharCode("0x"+e.slice(t,t+2)));return n.join("")},encodeObject:function(e){if(e instanceof Array)for(var n=0,r=e.length;r>n;n++)e[n]=t.encodeObject(e[n]);else if("object"==typeof e)for(var o in e)e[o]=t.encodeObject(e[o]);else if("string"==typeof e)return t.encode(e);return e},loadScript:function(e){var n=document.createElement("script");document.getElementsByTagName("body")[0].appendChild(n),n.setAttribute("src",e)},addLoadEvent:function(e){var n=window.onload;"function"!=typeof window.onload?window.onload=e:window.onload=function(){n(),e()}}}}();e.exports=t},function(e,n,t){"use strict";var r,o={versions:(r=window.navigator.userAgent,{trident:r.indexOf("Trident")>-1,presto:r.indexOf("Presto")>-1,webKit:r.indexOf("AppleWebKit")>-1,gecko:r.indexOf("Gecko")>-1&&-1==r.indexOf("KHTML"),mobile:!!r.match(/AppleWebKit.*Mobile.*/),ios:!!r.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),android:r.indexOf("Android")>-1||r.indexOf("Linux")>-1,iPhone:r.indexOf("iPhone")>-1||r.indexOf("Mac")>-1,iPad:r.indexOf("iPad")>-1,webApp:-1==r.indexOf("Safari"),weixin:-1==r.indexOf("MicroMessenger")})};n.a=o},,,,,,function(e,n){e.exports=function(e,n){if("string"==typeof n)return e.insertAdjacentHTML("afterend",n);var t=e.nextSibling;return t?e.parentNode.insertBefore(n,t):e.parentNode.appendChild(n)}},,,,,,,,function(e,n,t){e.exports=t(21)},,,function(e,n,t){"use strict";t.r(n);var r=t(0),o=t.n(r),i=(t(1),t(10)),a=t.n(i),l=t(4);var c={init:function(){var e=document.querySelector("#page-nav");if(e&&!document.querySelector("#page-nav .extend.prev")&&(e.innerHTML='<a class="extend prev disabled" rel="prev">&laquo; Prev</a>'+e.innerHTML),e&&!document.querySelector("#page-nav .extend.next")&&(e.innerHTML=e.innerHTML+'<a class="extend next disabled" rel="next">Next &raquo;</a>'),yiliaConfig&&yiliaConfig.open_in_new){document.querySelectorAll(".article-entry a:not(.article-more-a)").forEach(e=>{let n=e.getAttribute("target");n&&""!==n||e.setAttribute("target","_blank")})}if(yiliaConfig&&yiliaConfig.toc_hide_index){document.querySelectorAll(".toc-number").forEach(e=>{e.style.display="none"})}var n=document.querySelector("#js-aboutme");n&&0!==n.length&&(n.innerHTML=n.innerText)}},f=t(3);function u(e,n){let t=/\/|index.html/g;return e.replace(t,"")===n.replace(t,"")}function s(e,n,t,r,o){let i=function(e){for(var n=e.offsetLeft,t=e.offsetParent;null!==t;)n+=t.offsetLeft,t=t.offsetParent;return n}(e),l=function(e){for(var n=e.offsetTop,t=e.offsetParent;null!==t;)n+=t.offsetTop,t=t.offsetParent;return n}(e)-n;if(l-t<=o){let n=e.$newDom;n||(n=e.cloneNode(!0),a()(e,n),e.$newDom=n,n.style.position="fixed",n.style.top=(t||l)+"px",n.style.left=i+"px",n.style.zIndex=r||2,n.style.width="100%",n.style.color="#fff"),n.style.visibility="visible",e.style.visibility="hidden"}else{e.style.visibility="visible";let n=e.$newDom;n&&(n.style.visibility="hidden")}}function d(){let e=document.querySelector(".js-overlay"),n=document.querySelector(".js-header-menu");s(e,document.body.scrollTop,-63,2,0),s(n,document.body.scrollTop,1,3,0)}l.a.versions.mobile&&window.screen.width<800&&(function(){let e=document.querySelectorAll(".js-header-menu li a"),n=window.location.pathname;for(var t=0,r=e.length;t<r;t++){let r=e[t];u(n,r.getAttribute("href"))&&o()(r,"active")}}(),document.querySelector("#container").addEventListener("scroll",e=>{d()}),window.addEventListener("scroll",e=>{d()}),d()),Object(f.addLoadEvent)((function(){c.init()}));n.default={}}]);</script><script src="/learn/./main.eddd2a.js"></script><script>!function(){var e,t;e="/learn/slider.377226.js",t=document.createElement("script"),document.getElementsByTagName("body")[0].appendChild(t),t.setAttribute("src",e)}()</script>
 
 
     
@@ -1354,11 +1381,11 @@
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
+                <a href="javascript:void(0)" class="js-tag color5">JavaScript异步编程</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">JavaScript异步编程</a>
+                <a href="javascript:void(0)" class="js-tag color4">数据库</a>
               </li>
              
               <li class="article-tag-list-item">
