@@ -4,8 +4,6 @@ LABEL AUTHOR="none" \
 
 ENV REPO_URL=https://github.com/fangwenzheng88/learn.git
 
-COPY *.key *.crt /scripts
-
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories \
         && set -ex \
         && apk update && apk upgrade \
@@ -20,10 +18,11 @@ RUN git clone ${REPO_URL} /scripts \
         && npm config set registry https://registry.npm.taobao.org \
         && npm install \
         && npm i hexo-cli -g \
-        && hexo g \
-        && npm run build
+        && hexo g
 
 RUN cp /scripts/docker/nginx.conf /etc/nginx/nginx.conf
+
+COPY *.key *.crt /scripts/
 
 WORKDIR /scripts
 
